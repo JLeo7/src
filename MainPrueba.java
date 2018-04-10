@@ -63,7 +63,7 @@ public class MainPrueba {
                 registrarProducto();
                 break;
             case 3: //
-//                registrarInstalaciones();
+//                registrarInstalaciones(); prueba test
                 break;
             case 4: //
 //                agregarTareas();
