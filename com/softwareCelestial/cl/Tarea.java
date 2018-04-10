@@ -1,4 +1,4 @@
-package src.com.softwareCelestial.cl;
+package com.softwareCelestial.cl;
 
 public class Tarea {
 

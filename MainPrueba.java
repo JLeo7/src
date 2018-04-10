@@ -1,5 +1,3 @@
-package src;
-
 import com.softwareCelestial.cl.*;
 
 import javax.imageio.ImageIO;
