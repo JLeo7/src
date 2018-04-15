@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Producto {
     private String nombre;
-    private Image logo;
+    private String logo;
     private String descripcion;
     private String idProducto;
     private Version versionActual;
@@ -11,7 +11,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, Image logo, String descripcion, String idProducto,Version versionActual) {
+    public Producto(String nombre, String logo, String descripcion, String idProducto,Version versionActual) {
         this.nombre = nombre;
         this.logo = logo;
         this.descripcion = descripcion;
@@ -27,11 +27,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public Image getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(Image logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 
@@ -59,7 +59,7 @@ public class Producto {
         this.versionActual = versionActual;
     }
 
-    public void modificarProducto(String id, String nombre, Image logo, String descripcion){
+    public void modificarProducto(String id, String nombre, String logo, String descripcion){
         this.idProducto = id;
         this.nombre = nombre;
         this.logo = logo;
