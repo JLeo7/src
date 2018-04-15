@@ -164,8 +164,22 @@ public class UI {
                 previous = true;
                 break;
             case 1: //
+                registrarInstalacion();
                 break;
             case 2: //
+//                modificarInstalacion();
+                break;
+            case 3: //
+//                listarInstalaciones();
+                break;
+            case 4: //
+//                agregarTareaAInstalaciones();
+                break;
+            case 5: //
+//                modificarEstadoTareas();
+                break;
+            case 6: //
+//                modificarEstadoInstalaciones();
                 break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
@@ -173,6 +187,14 @@ public class UI {
                 break;
         }
         return previous;
+    }
+
+    static void registrarInstalacion(){
+        try {
+
+        } catch (Exception e){
+            out.println(e.getMessage());
+        }
     }
 
     static void registrarCliente()throws java.io.IOException{
