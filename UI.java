@@ -159,6 +159,10 @@ public class UI {
                 break;
             case 2: //
                 break;
+            case 3: //
+                break;
+            case 4: //
+                break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
                 out.println();
