@@ -134,6 +134,9 @@ public class UI {
             case 2: //
                 modificarCliente();
                 break;
+            case 3:
+                listarClientes();
+                break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
                 out.println();
@@ -306,8 +309,6 @@ public class UI {
 
     static void modificarCliente() throws  java.io.IOException{
         String idCliente = "";
-        String edicionTelefonos = "";
-        String edicionContactos = "";
         out.println("Ingrese la cedula juridica del cliente a modificar");
         idCliente = in.readLine();
         out.println(gestorCliente.imprimirCliente(idCliente));
@@ -355,6 +356,12 @@ public class UI {
                 break;
         }
         out.println();
+    }
+
+    static void listarClientes() throws java.io.IOException{
+        for(String var: gestorCliente.listarClientes){
+            out.println(var);
+        }
     }
 
     static void registrarProducto()throws java.io.IOException{

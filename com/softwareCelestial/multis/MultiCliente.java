@@ -107,6 +107,26 @@ public class MultiCliente {
         return cliente;
     }
 
+    public ArrayList<Cliente> listarClientes(){
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        return clientes;
+    }
+
+    public int obtenerIdCliente(String cedulaJuridica){
+        int id = 0;
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica ='" + cedulaJuridica + "'", true);
+            while(rs.next()){
+                id = rs.getInt("id_cliente");
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return id;
+    }
+
     public void actualizarTelefonos(String cedulaJuridica, ArrayList<String> telefonos){
         try{
             limpiarTelefonos(cedulaJuridica);
