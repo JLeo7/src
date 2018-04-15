@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Cliente {
+    private String nombre;
     private String razonSocial;
     private String cedJuridica;
     private String latitud;
@@ -16,7 +17,8 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, String logo, ArrayList<String> telefonos, Contacto contactoLider, Contacto contactoTecnico) {
+    public Cliente(String nombre, String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, String logo, ArrayList<String> telefonos, Contacto contactoLider, Contacto contactoTecnico) {
+        this.nombre = nombre;
         this.razonSocial = razonSocial;
         this.cedJuridica = cedJuridica;
         this.latitud = latitud;
@@ -26,6 +28,14 @@ public class Cliente {
         this.telefonos = telefonos;
         this.contactoLider = contactoLider;
         this.contactoTecnico = contactoTecnico;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getRazonSocial() {
@@ -103,12 +113,13 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente{" +
-                "razonSocial='" + razonSocial + '\'' +
+                "nombre='" + nombre + '\'' +
+                ", razonSocial='" + razonSocial + '\'' +
                 ", cedJuridica='" + cedJuridica + '\'' +
                 ", latitud='" + latitud + '\'' +
                 ", longitud='" + longitud + '\'' +
                 ", direccionExacta='" + direccionExacta + '\'' +
-                ", logo=" + logo +
+                ", logo='" + logo + '\'' +
                 ", telefonos=" + telefonos +
                 ", contactoLider=" + contactoLider +
                 ", contactoTecnico=" + contactoTecnico +
