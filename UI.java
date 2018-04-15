@@ -1,6 +1,7 @@
 import com.softwareCelestial.*; //Quitar esto cuando se importe la libreria.
 import com.softwareCelestial.cl.*;
 import com.softwareCelestial.gestor.GestorCliente;
+import com.softwareCelestial.gestor.GestorProducto;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ public class UI {
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintStream out = System.out;
     static GestorCliente gestorCliente = new GestorCliente();
+    static GestorProducto gestorProducto = new GestorProducto();
 
     public static void main(String[] args) throws java.io.IOException {
         int option;
@@ -42,20 +44,19 @@ public class UI {
         out.println("1.  Registrar cliente.");
         out.println("2.  Modificar cliente.");
         out.println("3.  Listar clientes.");
-        out.println("4.  Eliminar cliente.");
         out.println("0.  Regresar");
         out.println();
     }
 
     static void showOpt2Menu() {
         out.println();
-        out.println("Option 2");
+        out.println("Productos");
         out.println();
-        out.println("1.  .");
-        out.println("2.  .");
-        out.println("3.  .");
-        out.println("4.  .");
-        out.println("0.  Go back.");
+        out.println("1.  Registrar producto.");
+        out.println("2.  Modificar producto.");
+        out.println("3.  Listar productos.");
+        out.println("4.  Eliminar producto.");
+        out.println("0.  Regresar.");
         out.println();
     }
 
@@ -137,7 +138,7 @@ public class UI {
         return previous;
     }
 
-    static boolean exeOpt2Action(int poption) {
+    static boolean exeOpt2Action(int poption) throws java.io.IOException{
         boolean previous = false;
 
         switch (poption) {
@@ -145,6 +146,7 @@ public class UI {
                 previous = true;
                 break;
             case 1: //
+                registrarProducto();
                 break;
             case 2: //
                 break;
@@ -287,53 +289,23 @@ public class UI {
     static void registrarProducto()throws java.io.IOException{
         String nombre;
         String logo;
-        String descripcionProd;
+        String descripcion;
         String idProducto;
-        Version versionActual;
-        String numero;
-        LocalDate fechaCreacion;
-        ArrayList<Caracteristica> caracteristicas;
-        String descripcionCar;
-        LocalDate fechaReporte;
-        int cantErrores;
-        CaractError caracteristicaError;
-        int cantMejoras;
-        CaractMejora caracteristicaMejora;
-        Producto productoNuevo;
-        out.println("nombre producto");
+        String version;
+
+        out.println("Ingrese el nombre del producto");
         nombre = in.readLine();
-        logo = "resources/crearSinImagen.png";
-        out.println("descripcion producto");
-        descripcionProd = in.readLine();
-        out.println("idProducto");
+        out.println("Ingrese el url del logo");
+        logo = in.readLine();
+        out.println("Ingrese la descripción del producto");
+        descripcion = in.readLine();
+        out.println("Ingrese el código de identificación del producto");
         idProducto = in.readLine();
-        out.println("numero de la version");
-        numero = in.readLine();
-        fechaCreacion = LocalDate.now();
-        caracteristicas = new ArrayList<>();
-        out.println("Cuantos errores quiere registrar?");
-        cantErrores = Integer.parseInt(in.readLine());
+        out.println("Ingrese el número de versión del producto");
+        version = in.readLine();
 
-        for (int i = 0; i<cantErrores;i++){
-            out.println("descripcion error");
-            descripcionCar = in.readLine();
-            fechaReporte = LocalDate.now();
-            caracteristicaError = new CaractError(descripcionCar,fechaReporte);
-            caracteristicas.add(caracteristicaError);
-        }
-
-        out.println("Cuantas mejoras quiere registrar?");
-        cantMejoras = Integer.parseInt(in.readLine());
-
-        for (int i = 0; i<cantMejoras;i++){
-            out.println("descripcion mejora");
-            descripcionCar = in.readLine();
-            caracteristicaMejora = new CaractMejora(descripcionCar);
-            caracteristicas.add(caracteristicaMejora);
-        }
-
-        versionActual = new Version(numero,fechaCreacion,caracteristicas);
-        productoNuevo = new Producto(nombre,logo,descripcionProd,idProducto,versionActual);
+        gestorProducto.crearProducto(nombre, logo, descripcion, idProducto, version);
+        out.println("Se ha registrado el producto");
 
     }
 }
