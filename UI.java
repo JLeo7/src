@@ -296,8 +296,6 @@ public class UI {
         idCliente = in.readLine();
         out.println(gestorCliente.imprimirCliente(idCliente));
         out.println();
-        out.println("Ingrese la nueva información");
-        out.println();
         String nombre;
         String razonSocial;
         String latidud;
@@ -305,38 +303,42 @@ public class UI {
         String direccionExacta;
         String logo;
         int cantTelefonos;
+        int opcionEdicion;
         ArrayList<String> telefonosCliente = new ArrayList<>();
-        out.println("Ingrese el nombre");
-        nombre = in.readLine();
-        out.println("Ingrese la razon social");
-        razonSocial = in.readLine();
-        out.println("Ingrese la latitud");
-        latidud = in.readLine();
-        out.println("Ingrese la longitud");
-        longitud = in.readLine();
-        out.println("Ingrese la direccion");
-        direccionExacta = in.readLine();
-        out.println("Ingrese el URL del logo");
-        logo = in.readLine();
-        gestorCliente.modificarCliente(idCliente, nombre, razonSocial, latidud, longitud, direccionExacta, logo);
-        out.println();
-        out.println("Desea editar los numeros telefonicos?");
-        out.println("Si o No");
-        edicionTelefonos = in.readLine();
-        if(edicionTelefonos.equals("Si")){
-            for(String var :gestorCliente.imprimirTelefonos(idCliente)){
-                out.println(var);
-            }
-            out.println("Cuantos telefonos quiere registrar?");
-            out.println();
-            cantTelefonos = Integer.parseInt(in.readLine());
+        out.println("Que información desea editar? Digite 1 para información general, 2 para telefonos");
+        opcionEdicion = Integer.parseInt(in.readLine());
+        switch(opcionEdicion){
+            case 1:
+                out.println("Ingrese el nombre");
+                nombre = in.readLine();
+                out.println("Ingrese la razon social");
+                razonSocial = in.readLine();
+                out.println("Ingrese la latitud");
+                latidud = in.readLine();
+                out.println("Ingrese la longitud");
+                longitud = in.readLine();
+                out.println("Ingrese la direccion");
+                direccionExacta = in.readLine();
+                out.println("Ingrese el URL del logo");
+                logo = in.readLine();
+                gestorCliente.modificarCliente(idCliente, nombre, razonSocial, latidud, longitud, direccionExacta, logo);
+                break;
+            case 2 :
+                for(String var :gestorCliente.imprimirTelefonos(idCliente)){
+                    out.println(var);
+                }
+                out.println("Cuantos telefonos quiere registrar?");
+                out.println();
+                cantTelefonos = Integer.parseInt(in.readLine());
 
-            for (int i = 0; i<cantTelefonos;i++){
-                out.println("Ingrese el telefono "+(i+1));
-                telefonosCliente.add(in.readLine());
-            }
-            gestorCliente.actualizarTelefonos(idCliente, telefonosCliente);
+                for (int i = 0; i<cantTelefonos;i++){
+                    out.println("Ingrese el telefono "+(i+1));
+                    telefonosCliente.add(in.readLine());
+                }
+                gestorCliente.actualizarTelefonos(idCliente, telefonosCliente);
+                break;
         }
+        out.println();
     }
 
     static void registrarProducto()throws java.io.IOException{
