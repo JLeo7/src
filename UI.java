@@ -191,7 +191,7 @@ public class UI {
 
     static void registrarInstalacion(){
         try {
-
+           String estado;
         } catch (Exception e){
             out.println(e.getMessage());
         }
