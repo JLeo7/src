@@ -41,8 +41,11 @@ public class GestorCliente {
        return multiCliente.imprimirTelefonos(cedulaJuridica);
     }
 
-    public String listarClientes(){
-        String clientes = multiCliente.listarClientes().toString();
+    public ArrayList<String> listarClientes(){
+        ArrayList<String> clientes = new ArrayList<>();
+        for(Cliente var:multiCliente.listarClientes()){
+            clientes.add(var.toString());
+        }
         return clientes;
     }
 }

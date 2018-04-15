@@ -359,7 +359,7 @@ public class UI {
     }
 
     static void listarClientes() throws java.io.IOException{
-        for(String var: gestorCliente.listarClientes){
+        for(String var:gestorCliente.listarClientes()){
             out.println(var);
         }
     }

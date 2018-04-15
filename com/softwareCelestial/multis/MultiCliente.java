@@ -109,6 +109,18 @@ public class MultiCliente {
 
     public ArrayList<Cliente> listarClientes(){
         ArrayList<Cliente> clientes = new ArrayList<>();
+        Cliente cliente = new Cliente();
+        try {
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT * FROM cliente", true);
+            while(rs.next()){
+                cliente = new Cliente(rs.getString("nombre"), rs.getString("razon_social"), rs.getString("cedula_juridica"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"));
+                clientes.add(cliente);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return clientes;
     }
 
