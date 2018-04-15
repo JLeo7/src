@@ -30,7 +30,7 @@ public class MultiCliente {
             mContacto.registrarContacto(contactoLider, 1);
             mContacto.registrarContacto(contactoTecnico, 2);
             AccesoBD BD = Conector.getConector();
-            BD.ejecutarSQL("INSERT INTO cliente(nombre, cedula_juridica, razon_social, latitud, longitud, direccion, logo) VALUES('" + razonSocial + "', '"+cedJuridica+"', '"+latitud+"', '"+longitud+"', '"+direccionExacta+"', '"+logo+"', '"+nombre+"')");
+            BD.ejecutarSQL("INSERT INTO cliente(cedula_juridica, razon_social, latitud, longitud, direccion, logo, nombre) VALUES('" + razonSocial + "', '"+cedJuridica+"', '"+latitud+"', '"+longitud+"', '"+direccionExacta+"', '"+logo+"', '"+nombre+"')");
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
             for (String var : telefonos) {
