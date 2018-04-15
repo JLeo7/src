@@ -23,6 +23,7 @@ public class UI {
         out.println();
         out.println("1.  Option 1.");
         out.println("2.  Option 2.");
+        out.println("3.  Option 3.");
         out.println("0.  Exit.");
         out.println();
     }
