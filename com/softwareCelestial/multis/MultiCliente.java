@@ -58,7 +58,7 @@ public class MultiCliente {
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
             BD.ejecutarSQL("DELETE FROM telefonos_cliente WHERE id_cliente = '"+rs+"'");
             for (String var : telefonos) {
-                BD.ejecutarSQL("INSERT INTO telefonos_cliente(numero_telefonico, '" + rs.getString("id_cliente") + "')");
+                BD.ejecutarSQL("INSERT INTO telefonos_cliente(telefono, id_cliente) VALUES('"+var+"', '"+rs.getString("id_cliente")+"')");
             }
 
         }catch(Exception e){
