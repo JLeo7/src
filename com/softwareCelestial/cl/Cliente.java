@@ -8,7 +8,7 @@ public class Cliente {
     private String latitud;
     private String longitud;
     private String direccionExacta;
-    private Image logo;
+    private String logo;
     private ArrayList<String> telefonos;
     private Contacto contactoLider;
     private Contacto contactoTecnico;
@@ -16,7 +16,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, Image logo, ArrayList<String> telefonos, Contacto contactoLider, Contacto contactoTecnico) {
+    public Cliente(String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, String logo, ArrayList<String> telefonos, Contacto contactoLider, Contacto contactoTecnico) {
         this.razonSocial = razonSocial;
         this.cedJuridica = cedJuridica;
         this.latitud = latitud;
@@ -68,11 +68,11 @@ public class Cliente {
         this.direccionExacta = direccionExacta;
     }
 
-    public Image getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(Image logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 

@@ -8,4 +8,6 @@ public class CaractMejora extends Caracteristica{
     public CaractMejora(String descripcion) {
         super(descripcion);
     }
+
+
 }
