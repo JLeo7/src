@@ -30,11 +30,11 @@ public class MultiCliente {
             mContacto.registrarContacto(contactoLider, 1);
             mContacto.registrarContacto(contactoTecnico, 2);
             AccesoBD BD = Conector.getConector();
-            BD.ejecutarSQL("INSERT INTO cliente(nombre, cedula_juridica, razon_social, latitud, longitud, direccion_exacta, logo) VALUES('" + razonSocial + "', '"+cedJuridica+"', '"+latitud+"', '"+longitud+"', '"+direccionExacta+"', '"+logo+"', '"+nombre+"')");
+            BD.ejecutarSQL("INSERT INTO cliente(nombre, cedula_juridica, razon_social, latitud, longitud, direccion, logo) VALUES('" + razonSocial + "', '"+cedJuridica+"', '"+latitud+"', '"+longitud+"', '"+direccionExacta+"', '"+logo+"', '"+nombre+"')");
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
             for (String var : telefonos) {
-                BD.ejecutarSQL("INSERT INTO telefonos_clientes(numero_telefonico, '" + rs.getString("id_cliente") + "')");
+                BD.ejecutarSQL("INSERT INTO telefonos_cliente(numero_telefonico, '" + rs.getString("id_cliente") + "')");
             }
 
         }catch(Exception e){
@@ -53,12 +53,12 @@ public class MultiCliente {
             String logo = nuevoCliente.getLogo();
             ArrayList<String> telefonos = nuevoCliente.getTelefonos();
             AccesoBD BD = Conector.getConector();
-            BD.ejecutarSQL("UPDATE TABLE cliente SET razon_social = '"+razonSocial+"', latitud = '"+latitud+"', longitud = '"+longitud+"', direccion_estrada = '"+direccionExacta+"', logo = '"+logo+"', nombre = '"+nombre+"' WHERE cedula_juridica = '"+cedJuridica+"'");
+            BD.ejecutarSQL("UPDATE TABLE cliente SET razon_social = '"+razonSocial+"', latitud = '"+latitud+"', longitud = '"+longitud+"', direccion = '"+direccionExacta+"', logo = '"+logo+"', nombre = '"+nombre+"' WHERE cedula_juridica = '"+cedJuridica+"'");
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
-            BD.ejecutarSQL("DELETE FROM telefonos_clientes WHERE id_cliente = '"+rs+"'");
+            BD.ejecutarSQL("DELETE FROM telefonos_cliente WHERE id_cliente = '"+rs+"'");
             for (String var : telefonos) {
-                BD.ejecutarSQL("INSERT INTO telefonos_clientes(numero_telefonico, '" + rs.getString("id_cliente") + "')");
+                BD.ejecutarSQL("INSERT INTO telefonos_cliente(numero_telefonico, '" + rs.getString("id_cliente") + "')");
             }
 
         }catch(Exception e){
