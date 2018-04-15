@@ -1,5 +1,6 @@
 package com.softwareCelestial.gestor;
 
+import CapaAccesoBD.AccesoBD;
 import com.softwareCelestial.cl.Cliente;
 import com.softwareCelestial.cl.Contacto;
 import com.softwareCelestial.multis.MultiCliente;
@@ -7,6 +8,8 @@ import com.softwareCelestial.multis.MultiCliente;
 import java.util.ArrayList;
 
 public class GestorCliente {
+
+    MultiCliente multiCliente = new MultiCliente();
 
     public GestorCliente(){
 
@@ -17,14 +20,24 @@ public class GestorCliente {
         Contacto contactoLider = gestorContacto.registrarContacto(idContacto1, nombreContacto1, apellidosContacto1, puestoContacto1, correoContacto1, telefonosContacto1);
         Contacto contactoTecnico = gestorContacto.registrarContacto(idContacto2, nombreContacto2, apellidosContacto2, puestoContacto2, correoContacto2, telefonosContacto2);
         Cliente nuevoCliente = new Cliente(pNombre, pRazonSocial, pCedJuridica, pLatitud, pLongitud, pDireccionExacta, pLogo, pTelefonos,             contactoLider, contactoTecnico);
-        MultiCliente mClienteNuevo = new MultiCliente();
-        mClienteNuevo.registrarCliente(nuevoCliente);
+        multiCliente.registrarCliente(nuevoCliente);
     }
 
-    public void modificarCliente(String pNombre, String pRazonSocial, String pCedJuridica, String pLatitud, String pLongitud, String pDireccionExacta,       String pLogo, ArrayList<String> pTelefonos, Contacto pContactoLider, Contacto pContactoTecnico){
-        Cliente nuevoCliente = new Cliente(pNombre, pRazonSocial, pCedJuridica, pLatitud, pLongitud, pDireccionExacta, pLogo, pTelefonos,             pContactoLider, pContactoTecnico);
-        MultiCliente mClienteNuevo = new MultiCliente();
-        mClienteNuevo.registrarCliente(nuevoCliente);
+    public void modificarCliente(String pCedJuridica, String pNombre, String pRazonSocial, String pLatitud, String pLongitud, String pDireccionExacta, String pLogo){
+        multiCliente.modificarCliente(pCedJuridica, pNombre, pRazonSocial, pLatitud, pLatitud, pDireccionExacta, pLogo);
     }
 
+    public String imprimirCliente(String idCliente){
+
+        String cliente = multiCliente.listarCliente(idCliente).toString();
+        return cliente;
+    }
+
+    public void actualizarTelefonos(String idCliente, ArrayList<String> telefonos){
+        multiCliente.actualizarTelefonos(idCliente, telefonos);
+    }
+
+    public ArrayList<String> imprimirTelefonos(String cedulaJuridica){
+       return multiCliente.imprimirTelefonos(cedulaJuridica);
+    }
 }

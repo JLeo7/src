@@ -132,6 +132,7 @@ public class UI {
                 registrarCliente();
                 break;
             case 2: //
+                modificarCliente();
                 break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
@@ -152,6 +153,7 @@ public class UI {
                 registrarProducto();
                 break;
             case 2: //
+//                modificarProducto();
                 break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
@@ -302,6 +304,57 @@ public class UI {
 
     }
 
+    static void modificarCliente() throws  java.io.IOException{
+        String idCliente = "";
+        String edicionTelefonos = "";
+        String edicionContactos = "";
+        out.println("Ingrese la cedula juridica del cliente a modificar");
+        idCliente = in.readLine();
+        out.println(gestorCliente.imprimirCliente(idCliente));
+        out.println();
+        out.println("Ingrese la nueva información");
+        out.println();
+        String nombre;
+        String razonSocial;
+        String latidud;
+        String longitud;
+        String direccionExacta;
+        String logo;
+        int cantTelefonos;
+        ArrayList<String> telefonosCliente = new ArrayList<>();
+        out.println("Ingrese el nombre");
+        nombre = in.readLine();
+        out.println("Ingrese la razon social");
+        razonSocial = in.readLine();
+        out.println("Ingrese la latitud");
+        latidud = in.readLine();
+        out.println("Ingrese la longitud");
+        longitud = in.readLine();
+        out.println("Ingrese la direccion");
+        direccionExacta = in.readLine();
+        out.println("Ingrese el URL del logo");
+        logo = in.readLine();
+        gestorCliente.modificarCliente(idCliente, nombre, razonSocial, latidud, longitud, direccionExacta, logo);
+        out.println();
+        out.println("Desea editar los numeros telefonicos?");
+        out.println("Si o No");
+        edicionTelefonos = in.readLine();
+        if(edicionTelefonos.equals("Si")){
+            for(String var :gestorCliente.imprimirTelefonos(idCliente)){
+                out.println(var);
+            }
+            out.println("Cuantos telefonos quiere registrar?");
+            out.println();
+            cantTelefonos = Integer.parseInt(in.readLine());
+
+            for (int i = 0; i<cantTelefonos;i++){
+                out.println("Ingrese el telefono "+(i+1));
+                telefonosCliente.add(in.readLine());
+            }
+            gestorCliente.actualizarTelefonos(idCliente, telefonosCliente);
+        }
+    }
+
     static void registrarProducto()throws java.io.IOException{
         String nombre;
         String logo;
@@ -322,6 +375,7 @@ public class UI {
 
         gestorProducto.crearProducto(nombre, logo, descripcion, idProducto, version);
         out.println("Se ha registrado el producto");
+
 
     }
 }
