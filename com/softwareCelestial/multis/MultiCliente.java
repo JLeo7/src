@@ -30,17 +30,54 @@ public class MultiCliente {
             mContacto.registrarContacto(contactoLider, 1);
             mContacto.registrarContacto(contactoTecnico, 2);
             AccesoBD BD = Conector.getConector();
-            BD.ejecutarSQL("INSERT INTO cliente(cedula_juridica, razon_social, latitud, longitud, direccion, logo, nombre) VALUES('" + razonSocial + "', '"+cedJuridica+"', '"+latitud+"', '"+longitud+"', '"+direccionExacta+"', '"+logo+"', '"+nombre+"')");
+            BD.ejecutarSQL("INSERT INTO cliente(cedula_juridica, razon_social, latitud, longitud, direccion, logo, nombre) VALUES('"+cedJuridica+"', '" + razonSocial + "', '"+latitud+"', '"+longitud+"', '"+direccionExacta+"', '"+logo+"', '"+nombre+"')");
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
-            for (String var : telefonos) {
-                BD.ejecutarSQL("INSERT INTO telefonos_cliente(telefono, id_cliente) VALUES('"+var+"', '"+rs.getString("id_cliente")+"')");
+
+            while(rs.next()){
+                for (String var : telefonos) {
+                    BD.ejecutarSQL("INSERT INTO telefonos_cliente(id_cliente, telefono) VALUES("+rs.getInt("id_cliente")+", '"+var+"')");
+                }
             }
+            rs.close();
+            registroTablaClientesContacto(cedJuridica, nuevoCliente);
+//            String idContactoLider = nuevoCliente.getContactoLider().getId();
+//            String idContactoTecnico = nuevoCliente.getContactoTecnico().getId();
+//            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
+//            while(rs.next()){
+//                idCliente = rs.getInt("id_cliente");
+//                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES("+idCliente+", '"+idContactoLider+"')");
+//            }
+//
+//            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
+//            while(rs.next()){
+//                idCliente = rs.getInt("id_cliente");
+//                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES("+idCliente+", '"+idContactoTecnico+"')");
+//            }
 
         }catch(Exception e){
                 System.out.println(e.getMessage());
             }
         }
+
+
+     public void registroTablaClientesContacto(String cedJuridica, Cliente nuevoCliente){
+
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
+            while(rs.next()){
+                String idContactoLider = nuevoCliente.getContactoLider().getId();
+                String idContactoTecnico = nuevoCliente.getContactoTecnico().getId();
+                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES("+rs.getInt("id_cliente")+", '"+idContactoLider+"')");
+                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES("+rs.getInt("id_cliente")+", '"+idContactoTecnico+"')");
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Clientes Contacto");
+        }
+     }
 
     public void modificarCliente(Cliente nuevoCliente) {
         try {
@@ -57,12 +94,15 @@ public class MultiCliente {
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
             BD.ejecutarSQL("DELETE FROM telefonos_cliente WHERE id_cliente = '"+rs+"'");
-            for (String var : telefonos) {
-                BD.ejecutarSQL("INSERT INTO telefonos_cliente(telefono, id_cliente) VALUES('"+var+"', '"+rs.getString("id_cliente")+"')");
+            while(rs.next()){
+                for (String var : telefonos) {
+                    BD.ejecutarSQL("INSERT INTO telefonos_cliente(id_cliente, telefono) VALUES("+rs.getInt("id_cliente")+", '"+var+"')");
+                }
             }
 
         }catch(Exception e){
             System.out.println(e.getMessage());
+            System.out.println("Modificar cliente");
         }
     }
 
