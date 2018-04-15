@@ -1,11 +1,8 @@
 import com.softwareCelestial.*; //Quitar esto cuando se importe la libreria.
 import com.softwareCelestial.cl.*;
 import com.softwareCelestial.gestor.GestorCliente;
-<<<<<<< HEAD
 import com.softwareCelestial.gestor.GestorProducto;
-=======
 import com.softwareCelestial.gestor.GestorInstalacion;
->>>>>>> leo
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,12 +15,9 @@ public class UI {
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintStream out = System.out;
     static GestorCliente gestorCliente = new GestorCliente();
-<<<<<<< HEAD
     static GestorProducto gestorProducto = new GestorProducto();
-
-=======
     static GestorInstalacion gInstalacion = new GestorInstalacion();
->>>>>>> leo
+
     public static void main(String[] args) throws java.io.IOException {
         int option;
         boolean mainExit = false;
