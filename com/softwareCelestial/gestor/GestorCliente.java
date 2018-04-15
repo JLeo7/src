@@ -40,4 +40,9 @@ public class GestorCliente {
     public ArrayList<String> imprimirTelefonos(String cedulaJuridica){
        return multiCliente.imprimirTelefonos(cedulaJuridica);
     }
+
+    public String listarClientes(){
+        String clientes = multiCliente.listarClientes().toString();
+        return clientes;
+    }
 }
