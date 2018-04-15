@@ -79,6 +79,22 @@ public class Instalacion {
         this.solicitante = solicitante;
     }
 
+    public Producto getProductoInstalado() {
+        return productoInstalado;
+    }
+
+    public void setProductoInstalado(Producto productoInstalado) {
+        this.productoInstalado = productoInstalado;
+    }
+
+    public Version getVersionProducto() {
+        return versionProducto;
+    }
+
+    public void setVersionProducto(Version versionProducto) {
+        this.versionProducto = versionProducto;
+    }
+
     @Override
     public String toString() {
         return "Instalacion{" +

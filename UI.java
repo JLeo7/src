@@ -1,20 +1,29 @@
 import com.softwareCelestial.*; //Quitar esto cuando se importe la libreria.
 import com.softwareCelestial.cl.*;
 import com.softwareCelestial.gestor.GestorCliente;
+<<<<<<< HEAD
 import com.softwareCelestial.gestor.GestorProducto;
+=======
+import com.softwareCelestial.gestor.GestorInstalacion;
+>>>>>>> leo
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class UI {
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintStream out = System.out;
     static GestorCliente gestorCliente = new GestorCliente();
+<<<<<<< HEAD
     static GestorProducto gestorProducto = new GestorProducto();
 
+=======
+    static GestorInstalacion gInstalacion = new GestorInstalacion();
+>>>>>>> leo
     public static void main(String[] args) throws java.io.IOException {
         int option;
         boolean mainExit = false;
@@ -175,7 +184,7 @@ public class UI {
 //                listarInstalaciones();
                 break;
             case 4: //
-//                agregarTareaAInstalaciones();
+//                agregarTareasAInstalaciones();
                 break;
             case 5: //
 //                modificarEstadoTareas();
@@ -193,7 +202,20 @@ public class UI {
 
     static void registrarInstalacion(){
         try {
-           String estado;
+            String cedJuridica;
+            int idProducto;
+//            imprimirListaClientes(); // Imprime el nombre y al cedula del cliente.
+            // esto tiene que estar validado de que si no hay clientes avise que no existe ningun cliente registrado.
+            out.print("Digite la cedula juridica del cliente que solicita la instalacion: ");
+            cedJuridica = in.readLine();
+//            imprimirListaProductos(); // Imprime el nombre y el id del producto.
+            out.print("Digite el id del producto que desea instalar: ");
+            idProducto = Integer.parseInt(in.readLine());
+            gInstalacion.registrarInstalacion(cedJuridica,idProducto);
+            out.print("Desea registrar tareas a la instalacion? \n 1.  Si. \n 2.  No.");
+            if (Integer.parseInt(in.readLine()) == 1){
+//                agregarTareasAInstalacion();
+            }
         } catch (Exception e){
             out.println(e.getMessage());
         }
