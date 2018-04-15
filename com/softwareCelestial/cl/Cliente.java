@@ -30,6 +30,16 @@ public class Cliente {
         this.contactoTecnico = contactoTecnico;
     }
 
+    public Cliente(String nombre, String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, String logo){
+        this.nombre = nombre;
+        this.razonSocial = razonSocial;
+        this.cedJuridica = cedJuridica;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.direccionExacta = direccionExacta;
+        this.logo = logo;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -120,9 +130,6 @@ public class Cliente {
                 ", longitud='" + longitud + '\'' +
                 ", direccionExacta='" + direccionExacta + '\'' +
                 ", logo='" + logo + '\'' +
-                ", telefonos=" + telefonos +
-                ", contactoLider=" + contactoLider +
-                ", contactoTecnico=" + contactoTecnico +
                 '}';
     }
 }
