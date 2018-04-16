@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Instalacion {
 
-    private String id;
+    private int id;
     private LocalDate fecha;
     private LocalTime hora;
     private String estado;
@@ -20,7 +20,7 @@ public class Instalacion {
 
     }
 
-    public Instalacion(String id, LocalDate fecha, LocalTime hora, String estado, ArrayList<Tarea> tareas, Cliente solicitante,Producto productoInstalado) {
+    public Instalacion(int id, LocalDate fecha, LocalTime hora, String estado, ArrayList<Tarea> tareas, Cliente solicitante,Producto productoInstalado,Version versionProducto) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
@@ -28,14 +28,14 @@ public class Instalacion {
         this.tareas = tareas;
         this.solicitante = solicitante;
         this.productoInstalado = productoInstalado;
-        versionProducto = productoInstalado.getVersionActual();
+        this.versionProducto = versionProducto;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
