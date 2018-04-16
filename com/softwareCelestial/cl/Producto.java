@@ -19,6 +19,13 @@ public class Producto {
         this.versionActual = versionActual;
     }
 
+    public Producto(String nombre, String logo, String descripcion, String idProducto){
+        this.nombre = nombre;
+        this.logo = logo;
+        this.descripcion = descripcion;
+        this.idProducto = idProducto;
+    }
+
     public String getNombre() {
         return nombre;
     }

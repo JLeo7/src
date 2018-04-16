@@ -3,6 +3,7 @@ import com.softwareCelestial.cl.*;
 import com.softwareCelestial.gestor.GestorCliente;
 import com.softwareCelestial.gestor.GestorProducto;
 import com.softwareCelestial.gestor.GestorInstalacion;
+import com.softwareCelestial.gestor.GestorVersion;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ public class UI {
     static PrintStream out = System.out;
     static GestorCliente gestorCliente = new GestorCliente();
     static GestorProducto gestorProducto = new GestorProducto();
+    static GestorVersion gestorVersion = new GestorVersion();
     static GestorInstalacion gInstalacion = new GestorInstalacion();
 
     public static void main(String[] args) throws java.io.IOException {
@@ -156,8 +158,13 @@ public class UI {
                 registrarProducto();
                 break;
             case 2: //
-//                modificarProducto();
+                modificarProducto();
                 break;
+            case 3:
+                listarProductos();
+                break;
+            case 4:
+                eliminarProducto();
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
                 out.println();
@@ -386,5 +393,53 @@ public class UI {
         out.println("Se ha registrado el producto");
 
 
+    }
+
+    static void modificarProducto() throws java.io.IOException{
+        int opcionModificar;
+        String idProducto;
+        out.println("Ingrese el id del producto a modificar");
+        idProducto = in.readLine();
+        out.println();
+        out.println(gestorProducto.imprimirProducto(idProducto));
+        out.println();
+        out.println("Seleccione la informacion que desea modificar:");
+        out.println("1. Informacion general");
+        out.println("2. Version");
+        opcionModificar = Integer.parseInt(in.readLine());
+        switch(opcionModificar){
+            case 1:
+                String nombre;
+                String logo;
+                String descripcion;
+                String version;
+                out.println("Ingrese el nombre del producto");
+                nombre = in.readLine();
+                out.println("Ingrese el url del logo");
+                logo = in.readLine();
+                out.println("Ingrese la descripción del producto");
+                descripcion = in.readLine();
+
+                gestorProducto.modificarProducto(nombre, logo, descripcion, idProducto);
+                break;
+            case 2:
+                out.println("Ingrese el número de versión del producto");
+                version = in.readLine();
+                gestorVersion.modificarVersion(version, idProducto);
+                break;
+        }
+    }
+
+    static void listarProductos(){
+        for(String var:gestorProducto.listarProductos()){
+            out.println(var);
+        }
+    }
+
+    static void eliminarProducto()throws java.io.IOException{
+        String idProducto;
+        out.println("Ingrese el id del producto a eliminar");
+        idProducto = in.readLine();
+        gestorProducto.eliminarProducto(idProducto);
     }
 }

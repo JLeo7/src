@@ -3,10 +3,15 @@ package com.softwareCelestial.multis;
 import CapaAccesoBD.AccesoBD;
 import CapaAccesoBD.Conector;
 import com.softwareCelestial.cl.Producto;
+import com.softwareCelestial.cl.Version;
+import com.softwareCelestial.gestor.GestorVersion;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class MultiProducto {
+
+    GestorVersion gestorVersion = new GestorVersion();
 
     public MultiProducto(){
 
@@ -26,6 +31,58 @@ public class MultiProducto {
             }
 
         } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Producto listarProducto(String idProducto){
+        Producto producto = new Producto();
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT  p.*, v.numero as numeroVersion FROM producto as p INNER JOIN tversion as v ON p.id_version = v.id_version WHERE p.id_producto ='"+idProducto+"'", true);
+
+            while(rs.next()){
+                Version versionActual = gestorVersion.crearVersion(rs.getString("numeroVersion"));
+                producto = new Producto(rs.getString("nombre"), rs.getString("logo"), rs.getString("descripcion") , idProducto, versionActual);
+            }
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return producto;
+    }
+
+    public void modificarProducto(String nombre, String logo, String descripcion, String idProducto){
+        try{
+            AccesoBD BD = Conector.getConector();
+            BD.ejecutarSQL("UPDATE producto SET nombre='"+nombre+"', logo='"+logo+"', descripcion='"+descripcion+"' WHERE id_producto ='"+idProducto+"'");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public ArrayList<Producto> listarProductos(){
+        ArrayList<Producto> productos = new ArrayList<>();
+        Producto cliente = new Producto();
+        try {
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT * FROM producto", true);
+            while(rs.next()){
+                cliente = new Producto(rs.getString("nombre"), rs.getString("logo"), rs.getString("descripcion"), rs.getString("id_producto"));
+                productos.add(cliente);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return productos;
+    }
+
+    public void eliminarProducto(String idProducto){
+        try{
+            AccesoBD BD = Conector.getConector();
+            BD.ejecutarSQL("DELETE FROM producto WHERE id_producto ='"+idProducto+"'");
+        } catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
