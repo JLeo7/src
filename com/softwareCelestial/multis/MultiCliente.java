@@ -201,4 +201,19 @@ public class MultiCliente {
         }
         return telefonos;
     }
+
+    public boolean validarCliente(String cedJuridica){
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT nombre FROM cliente WHERE cedula_juridica = '"+cedJuridica+"'", true);
+            if(!rs.next()){
+                return true;
+            }
+            return false;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }

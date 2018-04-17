@@ -41,4 +41,8 @@ public class GestorProducto {
     public void eliminarProducto(String idProducto){
         multiProducto.eliminarProducto(idProducto);
     }
+
+    public boolean validarProducto(String idProducto){
+        return multiProducto.validarProducto(idProducto);
+    }
 }

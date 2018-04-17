@@ -48,4 +48,9 @@ public class GestorCliente {
         }
         return clientes;
     }
+
+    public boolean validarCliente(String cedulaJuridica){
+        return multiCliente.validarCliente(cedulaJuridica);
+
+    }
 }

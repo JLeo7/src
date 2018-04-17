@@ -4,6 +4,7 @@ import com.softwareCelestial.gestor.GestorCliente;
 import com.softwareCelestial.gestor.GestorProducto;
 import com.softwareCelestial.gestor.GestorInstalacion;
 import com.softwareCelestial.gestor.GestorVersion;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,6 +20,7 @@ public class UI {
     static GestorProducto gestorProducto = new GestorProducto();
     static GestorVersion gestorVersion = new GestorVersion();
     static GestorInstalacion gInstalacion = new GestorInstalacion();
+
 
     public static void main(String[] args) throws java.io.IOException {
         int option;
@@ -249,14 +251,20 @@ public class UI {
         String puestoContacto2;
         String correoContacto2;
         ArrayList<String> telefonosContacto2 = new ArrayList<>();
-
+        boolean continuar;
         // Info del cliente
         out.println("ingrese el nombre del cliente");
         nombre = in.readLine();
         out.println("Razon social");
         razonSocial = in.readLine();
-        out.println("CedJuridica");
-        cedJuridica = in.readLine();
+        do{
+            out.println("Ingrese la CedJuridica");
+            cedJuridica = in.readLine();
+            continuar = gestorCliente.validarCliente(cedJuridica);
+            if(!continuar){
+                out.println("La cedula ya se encuentra registrada, por favor intente de nuevo");
+            }
+        }while(!continuar);
         out.println("Latitud");
         latidud = in.readLine();
         out.println("Longitud");
@@ -281,8 +289,11 @@ public class UI {
         apellidoContacto1 = in.readLine();
         out.println("puesto");
         puestoContacto1 = in.readLine();
-        out.println("Digite el correo");
-        correoContacto1= in.readLine();
+        do{
+            out.println("Digite el correo");
+            correoContacto1= in.readLine();
+            EmailValidator.getInstance().isValid(correoContacto1);
+        } while(!validacion);
         out.println("Cuantos telefonos quiere registrar?");
         cantTelefonos = Integer.parseInt(in.readLine());
 
@@ -377,15 +388,21 @@ public class UI {
         String descripcion;
         String idProducto;
         String version;
-
+        boolean continuar;
         out.println("Ingrese el nombre del producto");
         nombre = in.readLine();
         out.println("Ingrese el url del logo");
         logo = in.readLine();
         out.println("Ingrese la descripción del producto");
         descripcion = in.readLine();
-        out.println("Ingrese el código de identificación del producto");
-        idProducto = in.readLine();
+        do{
+            out.println("Ingrese el código de identificación del producto");
+            idProducto = in.readLine();
+            continuar = gestorProducto.validarProducto(idProducto);
+            if(!continuar){
+                out.print("El producto ya se encuentra registrado, por favor intente de nuevo.");
+            }
+        }while(!continuar);
         out.println("Ingrese el número de versión del producto");
         version = in.readLine();
 
