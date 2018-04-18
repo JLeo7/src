@@ -43,7 +43,7 @@ public class GestorCliente {
      *@author Esteban Sancho
      *
      * */
-    public void crearCliente(String pNombre, String pRazonSocial, String pCedJuridica, String pLatitud, String pLongitud, String pDireccionExacta, String pLogo, ArrayList<String> pTelefonos, String idContacto1, String nombreContacto1, String apellidosContacto1, String puestoContacto1, String correoContacto1, ArrayList<String> telefonosContacto1, String idContacto2, String nombreContacto2, String apellidosContacto2, String puestoContacto2, String correoContacto2, ArrayList<String> telefonosContacto2 ){
+    public void crearCliente(String pNombre, String pRazonSocial, String pCedJuridica, String pLatitud, String pLongitud, String pDireccionExacta, String pLogo, ArrayList<String> pTelefonos, String idContacto1, String nombreContacto1, String apellidosContacto1, String puestoContacto1, String correoContacto1, ArrayList<String> telefonosContacto1, String idContacto2, String nombreContacto2, String apellidosContacto2, String puestoContacto2, String correoContacto2, ArrayList<String> telefonosContacto2){
         GestorContacto gestorContacto = new GestorContacto();
         Contacto contactoLider = gestorContacto.registrarContacto(idContacto1, nombreContacto1, apellidosContacto1, puestoContacto1, correoContacto1, telefonosContacto1);
         Contacto contactoTecnico = gestorContacto.registrarContacto(idContacto2, nombreContacto2, apellidosContacto2, puestoContacto2, correoContacto2, telefonosContacto2);

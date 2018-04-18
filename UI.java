@@ -314,7 +314,8 @@ public class UI {
         longitud = in.readLine();
         out.println("Ingrese la direccion exacta");
         direccionExacta = in.readLine();
-        logo = "resources/foto1.jpg";
+        out.println("Ingrese el URL del logo del cliente");
+        logo = in.readLine();
         out.println("Cuantos telefonos quiere registrar?");
         cantTelefonos = Integer.parseInt(in.readLine());
 
