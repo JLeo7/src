@@ -1,5 +1,6 @@
 import com.softwareCelestial.gestor.*;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -295,6 +296,7 @@ public class UI {
         boolean validacionEmail;
         boolean validacionEmail2;
         boolean validacionContacto;
+        boolean validacionURL;
         // Info del cliente
         out.println("Ingrese el nombre del cliente");
         nombre = in.readLine();
@@ -314,8 +316,14 @@ public class UI {
         longitud = in.readLine();
         out.println("Ingrese la direccion exacta");
         direccionExacta = in.readLine();
-        out.println("Ingrese el URL del logo del cliente");
-        logo = in.readLine();
+        do{
+            out.println("Ingrese el URL del logo del cliente");
+            logo = in.readLine();
+            validacionURL = UrlValidator.getInstance().isValid(logo);
+            if(!validacionURL){
+                out.println("Ingrese un URL valido");
+            }
+        }while(!validacionURL);
         out.println("Cuantos telefonos quiere registrar?");
         cantTelefonos = Integer.parseInt(in.readLine());
 
