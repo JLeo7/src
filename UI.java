@@ -14,7 +14,7 @@ public class UI {
     static GestorVersion gestorVersion = new GestorVersion();
     static GestorInstalacion gInstalacion = new GestorInstalacion();
     static GestorContacto gestorContacto = new GestorContacto();
-
+    static GestorTarea gTarea = new GestorTarea();
 
     public static void main(String[] args) throws java.io.IOException {
         int option;
@@ -181,16 +181,16 @@ public class UI {
                 registrarInstalacion();
                 break;
             case 2: //
-//                modificarEstadoInstalacion();
+                modificarEstadoInstalacion();
                 break;
             case 3: //
-//                listarInstalaciones();
+                listarInstalaciones();
                 break;
             case 4: //
                 agregarTareasAInstalacion();
                 break;
             case 5: //
-//                modificarEstadoTarea();
+                modificarEstadoTarea();
                 break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");
@@ -200,17 +200,19 @@ public class UI {
         return previous;
     }
 
-    static void registrarInstalacion(){
-        try {
-            String cedJuridica;
-            int idProducto;
-            out.print("Digite la cedula juridica del cliente que solicita la instalacion: ");
-            cedJuridica = in.readLine();
-            out.print("Digite el id del producto que desea instalar: ");
-            idProducto = Integer.parseInt(in.readLine());
-            gInstalacion.registrarInstalacion(cedJuridica,idProducto);
-        } catch (Exception e){
-            out.println(e.getMessage());
+    static void registrarInstalacion()throws java.io.IOException{
+        String cedJuridica;
+        int idProducto;
+        out.print("Digite la cedula juridica del cliente que solicita la instalacion: ");
+        cedJuridica = in.readLine();
+        out.print("Digite el id del producto que desea instalar: ");
+        idProducto = Integer.parseInt(in.readLine());
+        gInstalacion.registrarInstalacion(cedJuridica,idProducto);
+    }
+
+    static void listarInstalaciones(){
+        for (String msj:gInstalacion.listarInstalaciones()){
+            out.println(msj);
         }
     }
 
@@ -219,7 +221,9 @@ public class UI {
         String descripcion;
         String tipo;
         String responsable;
-
+        int idInstalacion;
+        out.print("Digite el id de la instalacion a la cual desea agregar una tarea: ");
+        idInstalacion = Integer.parseInt(in.readLine());
         out.print("Digite el codigo de la tarea: ");
         codigo = in.readLine();
         out.print("Digite la descripcion de la tarea: ");
@@ -228,10 +232,41 @@ public class UI {
         tipo = in.readLine();
         out.print("Digite el responsable de la tarea: ");
         responsable = in.readLine();
+        gTarea.registrarTarea(codigo,descripcion,tipo,responsable,idInstalacion);
+    }
 
-        GestorTarea gTarea;
-        gTarea = new GestorTarea();
-        gTarea.registrarTarea(codigo,descripcion,tipo,responsable);
+    static void modificarEstadoInstalacion()throws java.io.IOException{
+        int id;
+        out.print("Digite el id de la instalacion que desea modificar: ");
+        id = Integer.parseInt(in.readLine());
+
+        out.println("Verificando estado de las tareas.");
+        if (gTarea.validarTareasPendientes(id)){
+            gInstalacion.modificarEstadoInstalacion(id);
+            out.println("Instalacion ejecutada.");
+        } else {
+            out.println("La instalacion cuenta con tareas sin realizar.");
+        }
+    }
+
+    static void modificarEstadoTarea()throws java.io.IOException{
+        String estadoNuevo;
+        String codigoTarea;
+        out.print("Digite el codigo de la tarea que desea modificar: ");
+        codigoTarea = in.readLine();
+        out.println("1.  Pendiente.");
+        out.println("2.  Realizada.");
+        out.print("Digite el numero del estado deseado: ");
+        switch (Integer.parseInt(in.readLine())){
+            case 1: //
+                gTarea.modificarEstadoTarea(codigoTarea,"pendiente");
+                break;
+            case 2: //
+                gTarea.modificarEstadoTarea(codigoTarea,"realizada");
+                break;
+            default:
+                out.print("Valor invalido.");
+        }
     }
 
     static void registrarCliente()throws java.io.IOException{
