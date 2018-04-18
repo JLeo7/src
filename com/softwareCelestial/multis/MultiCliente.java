@@ -134,18 +134,32 @@ public class MultiCliente {
         Contacto contactoLider = new Contacto();
         Contacto contactoTecnico = new Contacto();
         ArrayList<String> telefonos;
-        ArrayList<Object> clienteCompleto = new ArrayList<>();
         ArrayList<Contacto> contactos = new ArrayList<>();
         try {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT * FROM cliente WHERE id_cliente='"+idCliente+"'", true);
+            String query = "SELECT * FROM cliente WHERE id_cliente="+idCliente+"";
+            rs = BD.ejecutarSQL(query, true);
+            String nombre;
+            String cedulaJuridica;
+            String razonSocial;
+            String latitud;
+            String longitud;
+            String direccion;
+            String logo;
             while(rs.next()){
                 telefonos = obtenerTelefonosCliente(idCliente);
                 contactos = obtenerContactosCliente(idCliente);
                 contactoLider = contactos.get(0);
                 contactoTecnico = contactos.get(1);
-                cliente = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"), rs.getString("razon_social"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"), telefonos,contactoLider, contactoTecnico);
+                cedulaJuridica = rs.getString("cedula_juridica");
+                razonSocial = rs.getString("razon_social");
+                latitud = rs.getString("latitud");
+                longitud = rs.getString("longitud");
+                direccion = rs.getString("direccion");
+                logo = rs.getString("logo");
+                nombre = rs.getString("nombre");
+                cliente = new Cliente(nombre, razonSocial, cedulaJuridica, latitud, longitud,direccion, logo, telefonos, contactoLider, contactoTecnico);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -163,25 +177,68 @@ public class MultiCliente {
      * */
     public ArrayList<Contacto> obtenerContactosCliente(int idCliente){
         ArrayList<Contacto> contactos = new ArrayList<>();
-
+        int tipo = 1;
 //        ArrayList<String> telefonos = new ArrayList<>();
         String idContacto = "";
         try{
 
             AccesoBD BD = Conector.getConector();
-            String query = "SELECT c.* FROM contacto as c INNER JOIN contactos_cliente as cc ON cc.id_contacto = c.id_contacto INNER JOIN cliente as cl ON cl.id_cliente = cc.id_cliente WHERE cc.id_cliente ="+idCliente+"";
+            String query = "SELECT c.* FROM contacto as c INNER JOIN contactos_cliente as cc ON cc.id_contacto = c.id_contacto INNER JOIN cliente as cl ON cl.id_cliente = cc.id_cliente WHERE cc.id_cliente ="+idCliente+" AND c.tipo="+tipo+"";
             ResultSet rs = BD.ejecutarSQL(query, true);
+            String nombre;
+            String apellidos;
+            String puesto;
+            String correo;
+            Contacto contacto;
             while(rs.next()){
                 idContacto = rs.getString("id_contacto");
+                nombre = rs.getString("nombre");
+                apellidos = rs.getString("apellidos");
+                puesto = rs.getString("puesto");
+                correo = rs.getString("correo");
                 ArrayList<String> telefonos = obtenerTelefonosContacto(idContacto);
-                Contacto contacto = new Contacto(idContacto,rs.getString("nombre"), rs.getString("apellidos"), rs.getString("puesto"), rs.getString("correo"), telefonos);
+                contacto = new Contacto(idContacto,nombre, apellidos, puesto, correo, telefonos);
                 contactos.add(contacto);
+                Contacto contactoTecnico = obtenerContactoTecnico(idCliente);
+                contactos.add(contactoTecnico);
             }
 
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
         return contactos;
+    }
+
+    public Contacto obtenerContactoTecnico(int idCliente){
+        int tipo = 2;
+        String idContacto = "";
+        ArrayList<String> telefonos = new ArrayList<>();
+        Contacto contactoTecnico = new Contacto();
+        try{
+
+            AccesoBD BD = Conector.getConector();
+            String query = "SELECT c.* FROM contacto as c INNER JOIN contactos_cliente as cc ON cc.id_contacto = c.id_contacto INNER JOIN cliente as cl ON cl.id_cliente = cc.id_cliente WHERE cc.id_cliente ="+idCliente+" AND c.tipo="+tipo+"";
+            ResultSet rs = BD.ejecutarSQL(query, true);
+            String nombre;
+            String apellidos;
+            String puesto;
+            String correo;
+            Contacto contacto;
+            while(rs.next()){
+                idContacto = rs.getString("id_contacto");
+                nombre = rs.getString("nombre");
+                apellidos = rs.getString("apellidos");
+                puesto = rs.getString("puesto");
+                correo = rs.getString("correo");
+                telefonos = obtenerTelefonosContacto(idContacto);
+                return contacto = new Contacto(idContacto,nombre, apellidos, puesto, correo, telefonos);
+            }
+            return null;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 
     /**

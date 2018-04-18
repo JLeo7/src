@@ -32,12 +32,12 @@ public class GestorProducto {
 
     /**
      * Se comunica con el multi de producto para mostrar un producto para que el usuario lo visualice antes de modificarlo
-     *@param idProducto el id del producto a mostrar
+     *@param codigoProducto el id del producto a mostrar
      *@return producto devuelve la instancia del producto para ser mostrada al usuario
      *@author Esteban Sancho
      * */
-    public String imprimirProducto(String idProducto){
-        String producto = multiProducto.listarProducto(idProducto).toString();
+    public String imprimirProducto(String codigoProducto){
+        String producto = multiProducto.listarProducto(codigoProducto).toString();
         return producto;
     }
 
@@ -46,11 +46,11 @@ public class GestorProducto {
      * @param nombre nombre del producto
      * @param logo URL del logo del producto
      * @param descripcion descripción del producto
-     * @param idProducto codigo de identificación del producto
+     * @param codigoProducto codigo de identificación del producto
      * @author Esteban Sancho
      * */
-    public void modificarProducto(String nombre, String logo, String descripcion, String idProducto ){
-        multiProducto.modificarProducto(nombre, logo, descripcion, idProducto);
+    public void modificarProducto(String nombre, String logo, String descripcion, String codigoProducto ){
+        multiProducto.modificarProducto(nombre, logo, descripcion, codigoProducto);
     }
 
     /**
