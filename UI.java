@@ -1,14 +1,9 @@
-import com.softwareCelestial.*; //Quitar esto cuando se importe la libreria.
-import com.softwareCelestial.cl.*;
 import com.softwareCelestial.gestor.*;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.commons.validator.routines.IntegerValidator;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class UI {
@@ -175,7 +170,7 @@ public class UI {
         return previous;
     }
 
-    static boolean exeOpt3Action(int poption) {
+    static boolean exeOpt3Action(int poption) throws java.io.IOException{
         boolean previous = false;
 
         switch (poption) {
@@ -192,7 +187,7 @@ public class UI {
 //                listarInstalaciones();
                 break;
             case 4: //
-//                agregarTareasAInstalaciones();
+                agregarTareasAInstalacion();
                 break;
             case 5: //
 //                modificarEstadoTarea();
@@ -209,21 +204,34 @@ public class UI {
         try {
             String cedJuridica;
             int idProducto;
-//            imprimirListaClientes(); // Imprime el nombre y al cedula del cliente.
-            // esto tiene que estar validado de que si no hay clientes avise que no existe ningun cliente registrado.
             out.print("Digite la cedula juridica del cliente que solicita la instalacion: ");
             cedJuridica = in.readLine();
-//            imprimirListaProductos(); // Imprime el nombre y el id del producto.
             out.print("Digite el id del producto que desea instalar: ");
             idProducto = Integer.parseInt(in.readLine());
             gInstalacion.registrarInstalacion(cedJuridica,idProducto);
-            out.print("Desea registrar tareas a la instalacion? \n 1.  Si. \n 2.  No.");
-            if (Integer.parseInt(in.readLine()) == 1){
-//                agregarTareasAInstalacion();
-            }
         } catch (Exception e){
             out.println(e.getMessage());
         }
+    }
+
+    static void agregarTareasAInstalacion()throws java.io.IOException{
+        String codigo;
+        String descripcion;
+        String tipo;
+        String responsable;
+
+        out.print("Digite el codigo de la tarea: ");
+        codigo = in.readLine();
+        out.print("Digite la descripcion de la tarea: ");
+        descripcion = in.readLine();
+        out.print("Digite el tipo de tarea: ");
+        tipo = in.readLine();
+        out.print("Digite el responsable de la tarea: ");
+        responsable = in.readLine();
+
+        GestorTarea gTarea;
+        gTarea = new GestorTarea();
+        gTarea.registrarTarea(codigo,descripcion,tipo,responsable);
     }
 
     static void registrarCliente()throws java.io.IOException{

@@ -7,11 +7,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 public class MultiTarea {
 
-    public void registrarTarea(Tarea nuevaTarea){
+    public void registrarTarea(Tarea nuevaTarea,int idInstalacion){
         try {
             AccesoBD aBD;
             aBD = Conector.getConector();
             aBD.ejecutarSQL("CALL pa_registrar_tarea('"+nuevaTarea.getCodigo()+"','"+nuevaTarea.getDescripcion()+"','"+nuevaTarea.getEstado()+"','"+nuevaTarea.getTipo()+"','"+nuevaTarea.getResponsable()+"')");
+            asignarTareaAUnaInstalacion(idInstalacion,nuevaTarea.getCodigo());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
