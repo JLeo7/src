@@ -7,6 +7,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 public class MultiTarea {
 
+    /**
+     * Metodo que registra una nueva tarea en la base de datos.
+     * @param nuevaTarea
+     * @param idInstalacion
+     * @author Leonardo Mora
+     */
     public void registrarTarea(Tarea nuevaTarea,int idInstalacion){
         try {
             AccesoBD aBD;
@@ -18,6 +24,12 @@ public class MultiTarea {
         }
     }
 
+    /**
+     * Metodo que asigna una tarea registrada a una instalacion registrada.
+     * @param idInstalacion
+     * @param codigoTarea
+     * @author Leonardo Mora
+     */
     public void asignarTareaAUnaInstalacion(int idInstalacion, String codigoTarea) {
         try {
             AccesoBD aBD;
@@ -28,6 +40,12 @@ public class MultiTarea {
         }
     }
 
+    /**
+     * Metodo que obtiene las tareas asignadas a una instalacion.
+     * @param idInstalacion
+     * @return Una coleccion de tareas.
+     * @author Leonardo Mora
+     */
     public ArrayList<Tarea> obtenerTareasPorIdInstalacion(int idInstalacion){
         try {
             AccesoBD accesoBD;
@@ -49,6 +67,12 @@ public class MultiTarea {
         }
     }
 
+    /**
+     * Metodo que obtiene el id que tiene una tarea en la base de datos dado el codigo de la tarea.
+     * @param codigo
+     * @return id de la tarea en al base de datos.
+     * @author Leonardo Mora
+     */
     public int obtenerIdTareaPorCodigo(String codigo){
         try {
             AccesoBD aBD;
@@ -67,7 +91,13 @@ public class MultiTarea {
         }
     }
 
-    public void modificarEstadoTarea(String estadoModificado){
+    /**
+     * Metodo que modifica el estado de una tarea
+     * @param codigoTarea
+     * @param estadoModificado
+     * @author Leonardo Mora
+     */
+    public void modificarEstadoTarea(String codigoTarea,String estadoModificado){
         try {
             AccesoBD aBD;
             aBD = Conector.getConector();
@@ -77,6 +107,12 @@ public class MultiTarea {
         }
     }
 
+    /**
+     * Metodo que valida si hay tareas pendientes.
+     * @param idInstalacion
+     * @return un boolean con el resultado de la busqueda.
+     * @author Leonardo Mora
+     */
     public boolean validarTareasPendientes (int idInstalacion) {
         try {
             AccesoBD aBD;

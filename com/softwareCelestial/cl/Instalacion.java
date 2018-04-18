@@ -5,8 +5,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Instalacion {
-
-    private int id;
     private LocalDate fecha;
     private LocalTime hora;
     private String estado;
@@ -20,8 +18,7 @@ public class Instalacion {
 
     }
 
-    public Instalacion(int id, LocalDate fecha, LocalTime hora, String estado, ArrayList<Tarea> tareas, Cliente solicitante,Producto productoInstalado,Version versionProducto) {
-        this.id = id;
+    public Instalacion(LocalDate fecha, LocalTime hora, String estado, ArrayList<Tarea> tareas, Cliente solicitante,Producto productoInstalado,Version versionProducto) {
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
@@ -29,14 +26,6 @@ public class Instalacion {
         this.solicitante = solicitante;
         this.productoInstalado = productoInstalado;
         this.versionProducto = versionProducto;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public LocalDate getFecha() {
@@ -98,7 +87,6 @@ public class Instalacion {
     @Override
     public String toString() {
         return "Instalacion{" +
-                "id='" + id + '\'' +
                 ", fecha=" + fecha +
                 ", hora=" + hora +
                 ", estado='" + estado + '\'' +

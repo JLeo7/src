@@ -379,7 +379,7 @@ public class MultiCliente {
             rs = aBD.ejecutarSQL("CALL pa_obtener_cliente_por_id_instalacion("+idInstalacion+")",true);
             if (rs.next()){
                 contactos = obtenerContactosCliente(obtenerIdCliente(rs.getString("cedula_juridica")));
-                return clienteEncontrado = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"),rs.getString("razon_social"),rs.getString("latidud"),rs.getString("longitud"),rs.getString("direccion"),rs.getString("logo"),retornarTelefonos(obtenerIdCliente(rs.getString("cedula_juridica"))+""),contactos.get(0),contactos.get(1));
+                return clienteEncontrado = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"),rs.getString("razon_social"),rs.getString("latidud"),rs.getString("longitud"),rs.getString("direccion"),rs.getString("logo"),imprimirTelefonos(obtenerIdCliente(rs.getString("cedula_juridica"))),contactos.get(0),contactos.get(1));
             } else {
                 return null;
             }
