@@ -125,15 +125,20 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "nombre='" + nombre + '\'' +
-                ", razonSocial='" + razonSocial + '\'' +
-                ", cedJuridica='" + cedJuridica + '\'' +
-                ", latitud='" + latitud + '\'' +
-                ", longitud='" + longitud + '\'' +
-                ", direccionExacta='" + direccionExacta + '\'' +
-                ", logo='" + logo + '\'' +
-                ", telefonos=" + telefonos.toString() +
-                '}';
+        return "Cliente: " +
+                " - nombre = " + nombre + '\n' +
+                " - razonSocial='" + razonSocial + '\n' +
+                " - cedJuridica='" + cedJuridica + '\n' +
+                " - latitud='" + latitud + '\n' +
+                " - longitud='" + longitud + '\n' +
+                " - direccionExacta='" + direccionExacta + '\n' +
+                " - logo='" + logo + '\n' +
+                " - telefonos=" + telefonos.toString() + '\n'+
+                " - contacto1=" + contactoLider.toString()+ '\n' +
+                " - contacto2= "+ contactoTecnico.toString();
     }
+
+//    public String toStringTelefono() {
+//        return
+//    }
 }

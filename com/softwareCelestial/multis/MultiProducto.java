@@ -34,7 +34,7 @@ public class MultiProducto {
             rs = BD.ejecutarSQL("SELECT MAX(id_version) FROM tversion", true);
 
             while(rs.next()){
-                BD.ejecutarSQL("INSERT INTO producto(id_version ,nombre, descripcion, logo, estado) VALUES ("+rs.getInt("MAX(id_version)")+", '"+nuevoProducto.getNombre()+"', '"+nuevoProducto.getDescripcion()+"', '"+nuevoProducto.getLogo()+"', '"+estado+"')");
+                BD.ejecutarSQL("INSERT INTO producto(id_version ,nombre, descripcion, logo, estado, codigo) VALUES ("+rs.getInt("MAX(id_version)")+", '"+nuevoProducto.getNombre()+"', '"+nuevoProducto.getDescripcion()+"', '"+nuevoProducto.getLogo()+"', '"+estado+"', '"+nuevoProducto.getIdProducto()+"')");
             }
 
         } catch(Exception e) {
@@ -43,21 +43,21 @@ public class MultiProducto {
     }
 
     /**
-     * Metodo que lista un producto basado en su id
-     * @param idProducto id del producto a listar
+     * Metodo que lista un producto basado en su codigo
+     * @param codigoProducto id del producto a listar
      * @return producto instancia de producto listado
      * @author Esteban Sancho
      * */
-    public Producto listarProducto(String idProducto){
+    public Producto listarProducto(String codigoProducto){
         Producto producto = new Producto();
         try{
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT  p.*, v.numero as numeroVersion FROM producto as p INNER JOIN tversion as v ON p.id_version = v.id_version WHERE p.id_producto ='"+idProducto+"'", true);
+            rs = BD.ejecutarSQL("SELECT  p.*, v.numero as numeroVersion FROM producto as p INNER JOIN tversion as v ON p.id_version = v.id_version WHERE p.codigo ='"+codigoProducto+"'", true);
 
             while(rs.next()){
                 Version versionActual = gestorVersion.crearVersion(rs.getString("numeroVersion"));
-                producto = new Producto(rs.getString("nombre"), rs.getString("logo"), rs.getString("descripcion") , idProducto, versionActual);
+                producto = new Producto(rs.getString("nombre"), rs.getString("logo"), rs.getString("descripcion") , codigoProducto, versionActual);
             }
         } catch(Exception e){
             System.out.println(e.getMessage());
@@ -70,13 +70,13 @@ public class MultiProducto {
      * @param nombre nombre del producto
      * @param logo URL del logo del producto
      * @param descripcion descripcion del producto
-     * @param idProducto id del producto a modificar
+     * @param codigoProducto id del producto a modificar
      * @author Esteban Sancho
      * */
-    public void modificarProducto(String nombre, String logo, String descripcion, String idProducto){
+    public void modificarProducto(String nombre, String logo, String descripcion, String codigoProducto){
         try{
             AccesoBD BD = Conector.getConector();
-            BD.ejecutarSQL("UPDATE producto SET nombre='"+nombre+"', logo='"+logo+"', descripcion='"+descripcion+"' WHERE id_producto ='"+idProducto+"'");
+            BD.ejecutarSQL("UPDATE producto SET nombre='"+nombre+"', logo='"+logo+"', descripcion='"+descripcion+"' WHERE codigo ='"+codigoProducto+"'");
         } catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -127,7 +127,7 @@ public class MultiProducto {
         try {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT nombre FROM producto", true);
+            rs = BD.ejecutarSQL("SELECT * FROM producto WHERE id_producto='"+idProducto+"'", true);
             if (!rs.next()) {
                 return true;
             }

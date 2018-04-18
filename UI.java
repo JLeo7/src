@@ -446,37 +446,26 @@ public class UI {
 
     static void modificarProducto() throws java.io.IOException{
         int opcionModificar;
-        String idProducto;
+        String codigoProducto;
         out.println("Ingrese el id del producto a modificar");
-        idProducto = in.readLine();
+        codigoProducto = in.readLine();
         out.println();
-        out.println(gestorProducto.imprimirProducto(idProducto));
+        out.println(gestorProducto.imprimirProducto(codigoProducto));
         out.println();
-        out.println("Seleccione la informacion que desea modificar:");
-        out.println("1. Informacion general");
-        out.println("2. Version");
-        opcionModificar = Integer.parseInt(in.readLine());
-        switch(opcionModificar){
-            case 1:
-                String nombre;
-                String logo;
-                String descripcion;
-                String version;
-                out.println("Ingrese el nombre del producto");
-                nombre = in.readLine();
-                out.println("Ingrese el url del logo");
-                logo = in.readLine();
-                out.println("Ingrese la descripción del producto");
-                descripcion = in.readLine();
 
-                gestorProducto.modificarProducto(nombre, logo, descripcion, idProducto);
-                break;
-            case 2:
-                out.println("Ingrese el número de versión del producto");
-                version = in.readLine();
-                gestorVersion.modificarVersion(version, idProducto);
-                break;
-        }
+        String nombre;
+        String logo;
+        String descripcion;
+        String version;
+        out.println("Ingrese el nombre del producto");
+        nombre = in.readLine();
+        out.println("Ingrese el url del logo");
+        logo = in.readLine();
+        out.println("Ingrese la descripción del producto");
+        descripcion = in.readLine();
+
+        gestorProducto.modificarProducto(nombre, logo, descripcion, codigoProducto);
+
     }
 
     static void listarProductos(){
