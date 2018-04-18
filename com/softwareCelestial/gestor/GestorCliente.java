@@ -6,7 +6,10 @@ import com.softwareCelestial.cl.Contacto;
 import com.softwareCelestial.multis.MultiCliente;
 
 import java.util.ArrayList;
-
+/**
+ * @author Esteban Sancho
+ * @version 1
+ * */
 public class GestorCliente {
 
     MultiCliente multiCliente = new MultiCliente();
@@ -49,35 +52,46 @@ public class GestorCliente {
     }
 
     /**
+     *Recibe la información general del cliente para enviar a modificar
      *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
+     *@param pCedJuridica cedula juridica del cliente
+     *@param pNombre nombre del cliente
+     *@param pRazonSocial razon social del cliente
+     *@param pLatitud latitud de la ubicacion del cliente
+     *@param pLongitud longitud de la ubicacion del cliente
+     *@param pDireccionExacta direccion del cliente
+     *@param pLogo URL de la imagen del logo
+     *@author Esteban Sancho
      *
      * */
     public void modificarCliente(String pCedJuridica, String pNombre, String pRazonSocial, String pLatitud, String pLongitud, String pDireccionExacta, String pLogo){
         multiCliente.modificarCliente(pCedJuridica, pNombre, pRazonSocial, pLatitud, pLongitud, pDireccionExacta, pLogo);
     }
 
-//    public String imprimirCliente(String cedJuridica){
-//        int idCliente = multiCliente.obtenerIdCliente(cedJuridica);
-//        String cliente = multiCliente.listarCliente(idCliente).toString();
-//        return cliente;
-//    }
 
-    public void actualizarTelefonos(String idCliente, ArrayList<String> telefonos){
+    /**
+     * Recibe el id del cliente y el arreglo de telefonos para modificar los telefonos
+     * @param cedulaJuridica id del cliente al que pertenecen los telefonos
+     * @param telefonos Arreglo con los nuevos telefonos
+     * @author Esteban Sancho
+     *
+     * */
+    public void actualizarTelefonos(String cedulaJuridica, ArrayList<String> telefonos){
+        int idCliente = multiCliente.obtenerIdCliente(cedulaJuridica);
         multiCliente.actualizarTelefonos(idCliente, telefonos);
     }
 
+    /**
+     * Recibe la cedula juridica de un cliente para mostrar los telefonos registrados a la hora de modificar
+     * @param cedulaJuridica cedula juridica del cliente al que se le estan modificando los telefonos
+     * @return Arreglo de telefonos registrados bajo el cliente
+     * @author Esteban Sancho
+     * */
     public ArrayList<String> imprimirTelefonos(String cedulaJuridica){
-       return multiCliente.imprimirTelefonos(cedulaJuridica);
+        int idCliente = multiCliente.obtenerIdCliente(cedulaJuridica);
+       return multiCliente.imprimirTelefonos(idCliente);
     }
+
 
     public ArrayList<String> listarClientes(){
         ArrayList<String> clientes = new ArrayList<>();
@@ -87,13 +101,15 @@ public class GestorCliente {
         return clientes;
     }
 
+    /**
+     * Metodo que recibe la cedula juridica para enviar al multi Cliente a validar si está ya registrado
+     * @param cedulaJuridica cedula juridica del cliente siendo registrado
+     * @returns valor booleano en true si el cliente no se encuentra previamente registrado
+     * @author Esteban Sancho
+     * */
     public boolean validarCliente(String cedulaJuridica){
         return multiCliente.validarCliente(cedulaJuridica);
 
-    }
-
-    public boolean validarContacto(String idContacto){
-        return multiCliente.validarContacto(idContacto);
     }
 
     public String imprimirCliente(String cedJuridica){

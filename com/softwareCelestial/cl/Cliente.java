@@ -1,7 +1,10 @@
 package com.softwareCelestial.cl;
 import java.awt.*;
 import java.util.ArrayList;
-
+/**
+ * @author Esteban Sancho
+ * @version 1
+ * */
 public class Cliente {
     private String nombre;
     private String razonSocial;

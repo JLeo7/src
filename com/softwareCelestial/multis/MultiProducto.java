@@ -8,7 +8,10 @@ import com.softwareCelestial.gestor.GestorVersion;
 import com.softwareCelestial.multis.MultiVersion;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
+/**
+ * @author Esteban Sancho
+ * @version 1
+ * */
 public class MultiProducto {
 
     GestorVersion gestorVersion = new GestorVersion();
@@ -16,7 +19,11 @@ public class MultiProducto {
     public MultiProducto(){
 
     }
-
+    /**
+     * Metodo que registra un producto en la BD
+     * @param nuevoProducto instancia de producto a registrar
+     * @author Esteban Sancho
+     * */
     public void registrarProducto(Producto nuevoProducto){
         try{
             String estado = "Activo";
@@ -35,6 +42,12 @@ public class MultiProducto {
         }
     }
 
+    /**
+     * Metodo que lista un producto basado en su id
+     * @param idProducto id del producto a listar
+     * @return producto instancia de producto listado
+     * @author Esteban Sancho
+     * */
     public Producto listarProducto(String idProducto){
         Producto producto = new Producto();
         try{
@@ -52,6 +65,14 @@ public class MultiProducto {
         return producto;
     }
 
+    /**
+     * Metodo que modifica un producto sin su version, en la BD
+     * @param nombre nombre del producto
+     * @param logo URL del logo del producto
+     * @param descripcion descripcion del producto
+     * @param idProducto id del producto a modificar
+     * @author Esteban Sancho
+     * */
     public void modificarProducto(String nombre, String logo, String descripcion, String idProducto){
         try{
             AccesoBD BD = Conector.getConector();
@@ -60,7 +81,11 @@ public class MultiProducto {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     *Metodo que devuelve todos los productos
+     *@return Arreglo con todos los productos
+     *@author Esteban Sancho
+     * */
     public ArrayList<Producto> listarProductos(){
         ArrayList<Producto> productos = new ArrayList<>();
         Producto cliente = new Producto();
@@ -78,6 +103,11 @@ public class MultiProducto {
         return productos;
     }
 
+    /**
+     * Metodo que elimina un producto de la BD basado en un id
+     * @param idProducto id del producto a eliminar
+     * @author Esteban Sancho
+     * */
     public void eliminarProducto(String idProducto){
         try{
             AccesoBD BD = Conector.getConector();
@@ -86,6 +116,13 @@ public class MultiProducto {
             System.out.println(e.getMessage());
         }
     }
+
+    /**
+     * Metodo que valida si un producto no se encuentra registrado
+     * @param idProducto id del producto a validar
+     * @return valor booleano en true si el producto no se encuentra previamente registrado
+     * @author Esteban Sancho
+     * */
     public boolean validarProducto(String idProducto) {
         try {
             AccesoBD BD = Conector.getConector();

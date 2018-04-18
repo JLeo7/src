@@ -9,12 +9,23 @@ import java.sql.Array;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+/**
+ * @author Esteban Sancho
+ * @version 1
+ * */
 public class MultiCliente {
 
     public MultiCliente() {
 
     }
 
+    /**
+     * Metodo que recibe una instancia de cliente y la registra en la BD, además, hace el registro en la tabla intermedia
+     * contactos_cliente y envía los contactos del cliente a ser registrados en la BD por medio de sus Multis.
+     *@param nuevoCliente instancia del nuevo cliente a registrar
+     *@author Esteban Sancho
+     *
+     * */
     public void registrarCliente(Cliente nuevoCliente) {
         try {
             String nombre = nuevoCliente.getNombre();
@@ -32,7 +43,7 @@ public class MultiCliente {
             mContacto.registrarContacto(contactoTecnico, 2);
             AccesoBD BD = Conector.getConector();
             BD.ejecutarSQL("INSERT INTO cliente(cedula_juridica, razon_social, latitud, longitud, direccion, logo, nombre) VALUES('" + cedJuridica + "', '" + razonSocial + "', '" + latitud + "', '" + longitud + "', '" + direccionExacta + "', '" + logo + "', '" + nombre + "')");
-            registroTablaClientesContacto(cedJuridica, nuevoCliente);
+            registroTablaClientesContacto(nuevoCliente);
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
 
@@ -42,38 +53,29 @@ public class MultiCliente {
                 }
             }
 
-//            String idContactoLider = nuevoCliente.getContactoLider().getId();
-//            String idContactoTecnico = nuevoCliente.getContactoTecnico().getId();
-//            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
-//            while(rs.next()){
-//                idCliente = rs.getInt("id_cliente");
-//                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES("+idCliente+", '"+idContactoLider+"')");
-//            }
-//
-//            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
-//            while(rs.next()){
-//                idCliente = rs.getInt("id_cliente");
-//                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES("+idCliente+", '"+idContactoTecnico+"')");
-//            }
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
     }
 
-
-    public void registroTablaClientesContacto(String cedJuridica, Cliente nuevoCliente) {
-
+    /**
+     * Metodo que registra el id del cliente y del contacto lider en la tabla intermedia contactos_cliente.
+     * @param nuevoCliente instancia de cliente
+     * @author Esteban Sancho
+     * */
+    public void registroTablaClientesContacto(Cliente nuevoCliente) {
+            String idCliente = "";
         try {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
+            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + nuevoCliente.getCedJuridica() + "'", true);
             while (rs.next()) {
                 String idContactoLider = nuevoCliente.getContactoLider().getId();
                 String idContactoTecnico = nuevoCliente.getContactoTecnico().getId();
-                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES(" + rs.getInt("id_cliente") + ", '" + idContactoLider + "')");
-                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES(" + rs.getInt("id_cliente") + ", '" + idContactoTecnico + "')");
+                idCliente = rs.getString("id_cliente");
+                BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES('"+idCliente+"', '" + idContactoLider + "')");
+                registrarContactoTecnicoTablaClientesContacto(idContactoTecnico, idCliente);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -81,6 +83,32 @@ public class MultiCliente {
         }
     }
 
+    /**
+     * Metodo que registra al contacto tecnico en la tabla contactos_cliente
+     * @param idContacto id del contacto a registrar
+     * @param idCliente id del cliente al que pertenece el contacto
+     * @author Esteban Sancho
+     * */
+    public void registrarContactoTecnicoTablaClientesContacto(String idContacto, String idCliente){
+        try{
+            AccesoBD BD = Conector.getConector();
+            BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES ('"+idCliente+"', '"+idContacto+"')");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Metodo que recibe la información general del cliente para modificar su informacion en la tabla cliente
+     * @param pCedJuridica cedula juridica del cliente
+     * @param pNombre nombre del cliente
+     * @param pRazonSocial razon social del cliente
+     * @param pLatitud latitud de la ubicacion del cliente
+     * @param pLongitud longitud de la ubicacion del cliente
+     * @param pDireccionExacta direccion del cliente
+     * @param pLogo URL del logo del cliente
+     * @author Esteban Sancho
+     * */
     public void modificarCliente(String pCedJuridica, String pNombre, String pRazonSocial, String pLatitud, String pLongitud, String pDireccionExacta, String pLogo) {
         try {
             AccesoBD BD = Conector.getConector();
@@ -92,6 +120,15 @@ public class MultiCliente {
         }
     }
 
+    /**
+     * Metodo que toma la información de un cliente desde la base de datos, sus telefonos, contactos y telefonos de contactos,
+     * inicializa una instancia de contactos, consigue los telefonos del cliente, inicializa una instancia de cliente
+     * @param idCliente id del cliente a listar
+     * @returns cliente instancia de cliente con toda la información correspondiente
+     * @author Esteban Sancho
+     *
+     *
+     * */
     public Cliente listarCliente(int idCliente) {
         Cliente cliente = new Cliente();
         Contacto contactoLider = new Contacto();
@@ -118,20 +155,26 @@ public class MultiCliente {
         return cliente;
     }
 
+    /**
+     * Metodo que retorna los contactos dado un id de cliente respectivo
+     * @param idCliente id del cliente del que se ocupan los contactos
+     * @return arreglo de tipo Contacto con los contactos respectivos del cliente
+     * @author Esteban Sancho
+     * */
     public ArrayList<Contacto> obtenerContactosCliente(int idCliente){
         ArrayList<Contacto> contactos = new ArrayList<>();
-        Contacto contacto = new Contacto();
-        ArrayList<String> telefonos = new ArrayList<>();
+
+//        ArrayList<String> telefonos = new ArrayList<>();
         String idContacto = "";
         try{
+
             AccesoBD BD = Conector.getConector();
             String query = "SELECT c.* FROM contacto as c INNER JOIN contactos_cliente as cc ON cc.id_contacto = c.id_contacto INNER JOIN cliente as cl ON cl.id_cliente = cc.id_cliente WHERE cc.id_cliente ="+idCliente+"";
             ResultSet rs = BD.ejecutarSQL(query, true);
-
             while(rs.next()){
                 idContacto = rs.getString("id_contacto");
-                telefonos = crearTelefonos(idContacto);
-                contacto = new Contacto(idContacto,rs.getString("nombre"), rs.getString("apellidos"), rs.getString("puesto"), rs.getString("correo"), telefonos);
+                ArrayList<String> telefonos = obtenerTelefonosContacto(idContacto);
+                Contacto contacto = new Contacto(idContacto,rs.getString("nombre"), rs.getString("apellidos"), rs.getString("puesto"), rs.getString("correo"), telefonos);
                 contactos.add(contacto);
             }
 
@@ -141,7 +184,13 @@ public class MultiCliente {
         return contactos;
     }
 
-    public ArrayList<String> crearTelefonos(String idContacto){
+    /**
+     * Metodo que retorna los telefonos de un contacto dado
+     * @param idContacto id del contacto del que se ocupan los telefonos
+     * @returns arreglo con los telefonos correspondientes al contacto
+     * @author Esteban Sancho
+     * */
+    public ArrayList<String> obtenerTelefonosContacto(String idContacto){
         ArrayList<String> telefonos = new ArrayList<>();
         try{
             AccesoBD BD = Conector.getConector();
@@ -155,6 +204,13 @@ public class MultiCliente {
         return telefonos;
     }
 
+
+    /**
+     * Metodo que retorna los telefonos de un cliente con respecto a un id proporcionado
+     * @param idCliente id del cliente del que se ocupan los telefonos
+     * @return Arreglo de telefonos correspondientes al cliente brindado
+     * @author Esteban Sancho
+     * */
     public ArrayList<String > obtenerTelefonosCliente(int idCliente){
         ArrayList<String> telefonos = new ArrayList<>();
         try{
@@ -169,6 +225,12 @@ public class MultiCliente {
         return telefonos;
     }
 
+
+    /**
+     * Metodo que lista a todos los clientes registrados, creando las instancias de contacto, arreglos de telefonos y cliente correspondientes
+     * @return Arreglo de tipo Cliente, con cada cliente registrado
+     * @author Esteban Sancho
+     * */
     public ArrayList<Cliente> listarClientes(){
         Cliente cliente = new Cliente();
         ArrayList<Cliente> clientes = new ArrayList<>();
@@ -197,6 +259,12 @@ public class MultiCliente {
         return clientes;
     }
 
+    /**
+     * Metodo que devuelve el id del cliente de la BD basado en su cedula juridica
+     * @param cedulaJuridica cedula juridica del cliente
+     * @return int con el id del cliente
+     * @author Esteban Sancho
+     * */
     public int obtenerIdCliente(String cedulaJuridica){
         int id = 0;
         try{
@@ -212,18 +280,22 @@ public class MultiCliente {
         return id;
     }
 
-    public void actualizarTelefonos(String cedulaJuridica, ArrayList<String> telefonos){
-        try{
-            limpiarTelefonos(cedulaJuridica);
-            AccesoBD BD = Conector.getConector();
-            ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedulaJuridica + "'", true);
 
-            while (rs.next()) {
+    /**
+     * Metodo que actualiza los telefonos de un cliente en la BD cuando se solicita modificar
+     * @param idCliente id de la BD del cliente
+     * @param telefonos arreglo de los telefonos del cliente
+     * @author Esteban Sancho
+     * */
+    public void actualizarTelefonos(int idCliente, ArrayList<String> telefonos){
+        try{
+            limpiarTelefonos(idCliente);
+            AccesoBD BD = Conector.getConector();
+
                 for (String var : telefonos) {
-                    BD.ejecutarSQL("INSERT INTO telefonos_cliente(id_cliente, telefono) VALUES(" + rs.getInt("id_cliente") + ", '" + var + "')");
+                    BD.ejecutarSQL("INSERT INTO telefonos_cliente(id_cliente, telefono) VALUES(" + idCliente + ", '" + var + "')");
                 }
-            }
+
 
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -231,41 +303,35 @@ public class MultiCliente {
         }
     }
 
-    public void limpiarTelefonos(String cedulaJuridica){
+    /**
+     * Metodo que elimina todos los telefonos del cliente cuando se solicita modificar los telefonos, esto para que no
+     * haya conflicto cuando se ingresen los nuevos telefonos
+     * @param idCliente id del cliente
+     * @author Esteban Sancho
+     * */
+    public void limpiarTelefonos(int idCliente){
         try{
             AccesoBD BD = Conector.getConector();
-            ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedulaJuridica + "'", true);
 
-            while (rs.next()) {
-                BD.ejecutarSQL("DELETE FROM telefonos_cliente WHERE id_cliente = '"+rs.getInt("id_cliente")+"'");
-            }
+            BD.ejecutarSQL("DELETE FROM telefonos_cliente WHERE id_cliente = '"+idCliente+"'");
+
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-    public ArrayList<String> imprimirTelefonos(String cedulaJuridica){
+    /**
+     * Metodo que retorna todos los telefonos de un cliente basado en su id de la BD
+     * @param idCliente id del cliente
+     * @return arreglo de tipo String con todos los telefonos del cliente
+     * @author Esteban Sancho
+     * */
+    public ArrayList<String> imprimirTelefonos(int idCliente){
         ArrayList<String>telefonos = new ArrayList<>();
         try{
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedulaJuridica + "'", true);
-            while(rs.next()){
-                telefonos = retornarTelefonos(rs.getString("id_cliente"));
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        return telefonos;
-    }
-
-    public ArrayList<String> retornarTelefonos(String idCliente){
-        ArrayList<String>telefonos = new ArrayList<>();
-        try{
-            AccesoBD BD = Conector.getConector();
-            ResultSet rs = null;
-            rs =BD.ejecutarSQL("SELECT * FROM telefonos_cliente WHERE id_cliente ='"+idCliente+"'", true);
+            rs =BD.ejecutarSQL("SELECT * FROM telefonos_cliente WHERE id_cliente ="+idCliente+"", true);
             while(rs.next()){
                 telefonos.add(rs.getString("telefono"));
             }
@@ -275,6 +341,12 @@ public class MultiCliente {
         return telefonos;
     }
 
+    /**
+     * Metodo que valida si el cliente se encuentra registrado previamente
+     * @param cedJuridica cedula juridica del cliente
+     * @return valor booleano en true si el cliente no se encuentra registrado
+     * @author Esteban Sancho
+     * */
     public boolean validarCliente(String cedJuridica){
         try{
             AccesoBD BD = Conector.getConector();
@@ -290,21 +362,12 @@ public class MultiCliente {
         }
     }
 
-    public boolean validarContacto(String idContacto) {
-        try {
-            AccesoBD BD = Conector.getConector();
-            ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT nombre FROM contacto WHERE id_contacto = '" + idContacto + "'", true);
-            if (!rs.next()) {
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-
+    /**
+     * Metodo que retorna una instancia del cliente por medio del id de una instalacion
+     * @param idInstalacion id de la instalacion
+     * @return clienteEncontrado instancia de cliente
+     * @author Leonardo Jimenez
+     * */
     public Cliente obtenerClientePorIdInstalacion(int idInstalacion){
         try {
             AccesoBD aBD;

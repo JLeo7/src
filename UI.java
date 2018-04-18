@@ -1,9 +1,6 @@
 import com.softwareCelestial.*; //Quitar esto cuando se importe la libreria.
 import com.softwareCelestial.cl.*;
-import com.softwareCelestial.gestor.GestorCliente;
-import com.softwareCelestial.gestor.GestorProducto;
-import com.softwareCelestial.gestor.GestorInstalacion;
-import com.softwareCelestial.gestor.GestorVersion;
+import com.softwareCelestial.gestor.*;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.IntegerValidator;
 
@@ -21,6 +18,7 @@ public class UI {
     static GestorProducto gestorProducto = new GestorProducto();
     static GestorVersion gestorVersion = new GestorVersion();
     static GestorInstalacion gInstalacion = new GestorInstalacion();
+    static GestorContacto gestorContacto = new GestorContacto();
 
 
     public static void main(String[] args) throws java.io.IOException {
@@ -287,7 +285,7 @@ public class UI {
         do{
             out.println("Ingrese la identifiación del contacto #1");
             idContacto1 = in.readLine();
-            validacionContacto = gestorCliente.validarContacto(idContacto1);
+            validacionContacto = gestorContacto.validarContacto(idContacto1);
             if(!validacionContacto){
                 out.println("El contacto ya se encuentra registrado, intente de nuevo");
             }
@@ -319,7 +317,7 @@ public class UI {
         do{
             out.println("Ingrese la identifiación del contacto #2");
             idContacto2 = in.readLine();
-            validacionContacto = gestorCliente.validarContacto(idContacto2);
+            validacionContacto = gestorContacto.validarContacto(idContacto2);
             if(!validacionContacto){
                 out.println("El contacto ya se encuentra registrado, intente de nuevo");
             }

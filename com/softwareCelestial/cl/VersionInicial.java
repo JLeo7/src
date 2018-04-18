@@ -2,7 +2,10 @@ package com.softwareCelestial.cl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+/**
+ * @author Esteban Sancho
+ * @version 1
+ * */
 public class VersionInicial extends Version{
 
     public VersionInicial(){

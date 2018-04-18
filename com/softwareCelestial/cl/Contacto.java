@@ -1,7 +1,10 @@
 package com.softwareCelestial.cl;
 
 import java.util.ArrayList;
-
+/**
+ * @author Esteban Sancho
+ * @version 1
+ * */
 public class Contacto {
 
     private String id;
