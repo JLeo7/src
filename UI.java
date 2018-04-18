@@ -67,12 +67,13 @@ public class UI {
 
     static void showOpt3Menu() {
         out.println();
-        out.println("Option 3");
+        out.println("Instalaciones");
         out.println();
-        out.println("1.  .");
-        out.println("2.  .");
-        out.println("3.  .");
-        out.println("4.  .");
+        out.println("1.  Realizar una instalacion.");
+        out.println("2.  Modificar el estado de una instalacion.");
+        out.println("3.  Listar las instalaciones.");
+        out.println("4.  Agregar tareas a una instalacion.");
+        out.println("5.  Modificar el estado de una tarea.");
         out.println("0.  Go back.");
         out.println();
     }
@@ -184,7 +185,7 @@ public class UI {
                 registrarInstalacion();
                 break;
             case 2: //
-//                modificarInstalacion();
+//                modificarEstadoInstalacion();
                 break;
             case 3: //
 //                listarInstalaciones();
@@ -193,10 +194,7 @@ public class UI {
 //                agregarTareasAInstalaciones();
                 break;
             case 5: //
-//                modificarEstadoTareas();
-                break;
-            case 6: //
-//                modificarEstadoInstalaciones();
+//                modificarEstadoTarea();
                 break;
             default: // Any value that isn't in the options
                 out.println("Invalid option.");

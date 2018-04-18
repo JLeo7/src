@@ -5,7 +5,7 @@ import CapaAccesoBD.Conector;
 import com.softwareCelestial.cl.Producto;
 import com.softwareCelestial.cl.Version;
 import com.softwareCelestial.gestor.GestorVersion;
-
+import com.softwareCelestial.multis.MultiVersion;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -84,6 +84,46 @@ public class MultiProducto {
             BD.ejecutarSQL("DELETE FROM producto WHERE id_producto ='"+idProducto+"'");
         } catch(Exception e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    public Producto obtenerProductoPorIdInstalacion (int idInstalacion) {
+        try {
+            AccesoBD aBD;
+            Producto productoEncontrado;
+            ResultSet rs;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_producto_por_id_instalacion("+idInstalacion+")",true);
+
+            if (rs.next()) {
+                return productoEncontrado = new Producto(rs.getString("nombre"),rs.getString("logo"),rs.getString("descripcion"),rs.getString("id_producto"));
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public Producto obtenerProductoPorId(int idProducto){
+        try {
+            AccesoBD aBD;
+            Producto productoEncontrado;
+            ResultSet rs;
+            MultiVersion mVersion;
+            mVersion = new MultiVersion();
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_producto_por_id("+idProducto+")",true);
+
+            if (rs.next()) {
+                return productoEncontrado = new Producto(rs.getString("nombre"),rs.getString("logo"),rs.getString("descripcion"),rs.getString("id_producto"),mVersion.obtenerVersionPorId(rs.getInt(rs.getInt("id_version"))));
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 }
