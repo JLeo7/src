@@ -5,6 +5,7 @@ import com.softwareCelestial.gestor.GestorProducto;
 import com.softwareCelestial.gestor.GestorInstalacion;
 import com.softwareCelestial.gestor.GestorVersion;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.IntegerValidator;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -252,10 +253,13 @@ public class UI {
         String correoContacto2;
         ArrayList<String> telefonosContacto2 = new ArrayList<>();
         boolean continuar;
+        boolean validacionEmail;
+        boolean validacionEmail2;
+        boolean validacionContacto;
         // Info del cliente
-        out.println("ingrese el nombre del cliente");
+        out.println("Ingrese el nombre del cliente");
         nombre = in.readLine();
-        out.println("Razon social");
+        out.println("Ingrese la Razon social");
         razonSocial = in.readLine();
         do{
             out.println("Ingrese la CedJuridica");
@@ -265,59 +269,83 @@ public class UI {
                 out.println("La cedula ya se encuentra registrada, por favor intente de nuevo");
             }
         }while(!continuar);
-        out.println("Latitud");
+        out.println("Ingrese la latitud");
         latidud = in.readLine();
-        out.println("Longitud");
+        out.println("Ingrese la longitud");
         longitud = in.readLine();
-        out.println("direccion exacta");
+        out.println("Ingrese la direccion exacta");
         direccionExacta = in.readLine();
         logo = "resources/foto1.jpg";
         out.println("Cuantos telefonos quiere registrar?");
         cantTelefonos = Integer.parseInt(in.readLine());
 
         for (int i = 0; i<cantTelefonos;i++){
-            out.println("Telefono "+i);
+            out.println("Ingrese el telefono "+i);
             telefonosCliente.add(in.readLine());
         }
 
         // Info del primer contacto dentro del cliente
-        out.println("Id");
-        idContacto1 = in.readLine();
-        out.println("nombre");
+
+        do{
+            out.println("Ingrese la identifiación del contacto #1");
+            idContacto1 = in.readLine();
+            validacionContacto = gestorCliente.validarContacto(idContacto1);
+            if(!validacionContacto){
+                out.println("El contacto ya se encuentra registrado, intente de nuevo");
+            }
+
+        } while(!validacionContacto);
+        out.println("Ingrese el nombre del contacto #1");
         nombreContacto1 = in.readLine();
-        out.println("apellido");
+        out.println("Ingrese el apellido del contacto #1");
         apellidoContacto1 = in.readLine();
-        out.println("puesto");
+        out.println("Ingrese el puesto del contacto #1");
         puestoContacto1 = in.readLine();
         do{
-            out.println("Digite el correo");
+            out.println("Digite el correo del contacto #1");
             correoContacto1= in.readLine();
-            EmailValidator.getInstance().isValid(correoContacto1);
-        } while(!validacion);
+            validacionEmail = EmailValidator.getInstance().isValid(correoContacto1);
+            if(!validacionEmail){
+                out.println("El correo es inválido, por favor ingrese un correo en el formato correcto");
+            }
+        } while(!validacionEmail);
         out.println("Cuantos telefonos quiere registrar?");
         cantTelefonos = Integer.parseInt(in.readLine());
 
         for (int i = 0; i<cantTelefonos;i++){
-            out.println("Telefono "+i);
+            out.println("Ingrese el telefono "+i);
             telefonosContacto1.add(in.readLine());
         }
 
         // Info del segundo contacto dentro del cliente
-        out.println("Id");
-        idContacto2 = in.readLine();
-        out.println("nombre");
+        do{
+            out.println("Ingrese la identifiación del contacto #2");
+            idContacto2 = in.readLine();
+            validacionContacto = gestorCliente.validarContacto(idContacto2);
+            if(!validacionContacto){
+                out.println("El contacto ya se encuentra registrado, intente de nuevo");
+            }
+
+        } while(!validacionContacto);
+        out.println("Ingrese el nombre del contacto #2");
         nombreContacto2 = in.readLine();
-        out.println("apellido");
+        out.println("Ingrese el apellido del contacto #2");
         apellidoContacto2 = in.readLine();
-        out.println("puesto");
+        out.println("Ingrese el puesto del contacto #2");
         puestoContacto2 = in.readLine();
-        out.println("Digite el correo");
-        correoContacto2 = in.readLine();
+        do{
+            out.println("Digite el correo del contacto #2");
+            correoContacto2= in.readLine();
+            validacionEmail2 = EmailValidator.getInstance().isValid(correoContacto2);
+            if(!validacionEmail2){
+                out.println("El correo es inválido, por favor ingrese un correo en el formato correcto");
+            }
+        } while(!validacionEmail2);
         out.println("Cuantos telefonos quiere registrar?");
         cantTelefonos = Integer.parseInt(in.readLine());
 
         for (int i = 0; i<cantTelefonos;i++){
-            out.println("Telefono "+i);
+            out.println("Ingrese el telefono "+i);
             telefonosContacto2.add(in.readLine());
         }
 
@@ -333,7 +361,7 @@ public class UI {
         out.println();
         String nombre;
         String razonSocial;
-        String latidud;
+        String latitud;
         String longitud;
         String direccionExacta;
         String logo;
@@ -349,14 +377,14 @@ public class UI {
                 out.println("Ingrese la razon social");
                 razonSocial = in.readLine();
                 out.println("Ingrese la latitud");
-                latidud = in.readLine();
+                latitud = in.readLine();
                 out.println("Ingrese la longitud");
                 longitud = in.readLine();
                 out.println("Ingrese la direccion");
                 direccionExacta = in.readLine();
                 out.println("Ingrese el URL del logo");
                 logo = in.readLine();
-                gestorCliente.modificarCliente(idCliente, nombre, razonSocial, latidud, longitud, direccionExacta, logo);
+                gestorCliente.modificarCliente(idCliente, nombre, razonSocial, latitud, longitud, direccionExacta, logo);
                 break;
             case 2 :
                 for(String var :gestorCliente.imprimirTelefonos(idCliente)){

@@ -32,6 +32,7 @@ public class MultiCliente {
             mContacto.registrarContacto(contactoTecnico, 2);
             AccesoBD BD = Conector.getConector();
             BD.ejecutarSQL("INSERT INTO cliente(cedula_juridica, razon_social, latitud, longitud, direccion, logo, nombre) VALUES('" + cedJuridica + "', '" + razonSocial + "', '" + latitud + "', '" + longitud + "', '" + direccionExacta + "', '" + logo + "', '" + nombre + "')");
+            registroTablaClientesContacto(cedJuridica, nuevoCliente);
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
 
@@ -40,8 +41,7 @@ public class MultiCliente {
                     BD.ejecutarSQL("INSERT INTO telefonos_cliente(id_cliente, telefono) VALUES(" + rs.getInt("id_cliente") + ", '" + var + "')");
                 }
             }
-            rs.close();
-            registroTablaClientesContacto(cedJuridica, nuevoCliente);
+
 //            String idContactoLider = nuevoCliente.getContactoLider().getId();
 //            String idContactoTecnico = nuevoCliente.getContactoTecnico().getId();
 //            rs = BD.ejecutarSQL("SELECT id_cliente FROM cliente WHERE cedula_juridica = '" + cedJuridica + "'", true);
@@ -59,6 +59,7 @@ public class MultiCliente {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
     }
 
 
@@ -91,36 +92,108 @@ public class MultiCliente {
         }
     }
 
-    public Cliente listarCliente(String cedulaJuridica) {
+    public Cliente listarCliente(int idCliente) {
         Cliente cliente = new Cliente();
+        Contacto contactoLider = new Contacto();
+        Contacto contactoTecnico = new Contacto();
+        ArrayList<String> telefonos;
+        ArrayList<Object> clienteCompleto = new ArrayList<>();
+        ArrayList<Contacto> contactos = new ArrayList<>();
         try {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT * FROM cliente WHERE cedula_juridica ='" + cedulaJuridica + "'", true);
+            rs = BD.ejecutarSQL("SELECT * FROM cliente WHERE id_cliente='"+idCliente+"'", true);
             while(rs.next()){
-                cliente = new Cliente(rs.getString("nombre"), rs.getString("razon_social"), rs.getString("cedula_juridica"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"));
+                telefonos = obtenerTelefonosCliente(idCliente);
+                contactos = obtenerContactosCliente(idCliente);
+                contactoLider = contactos.get(0);
+                contactoTecnico = contactos.get(1);
+                cliente = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"), rs.getString("razon_social"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"), telefonos,contactoLider, contactoTecnico);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
+
         return cliente;
     }
 
+    public ArrayList<Contacto> obtenerContactosCliente(int idCliente){
+        ArrayList<Contacto> contactos = new ArrayList<>();
+        Contacto contacto = new Contacto();
+        ArrayList<String> telefonos = new ArrayList<>();
+        String idContacto = "";
+        try{
+            AccesoBD BD = Conector.getConector();
+            String query = "SELECT c.* FROM contacto as c INNER JOIN contactos_cliente as cc ON cc.id_contacto = c.id_contacto INNER JOIN cliente as cl ON cl.id_cliente = cc.id_cliente WHERE cc.id_cliente ="+idCliente+"";
+            ResultSet rs = BD.ejecutarSQL(query, true);
+
+            while(rs.next()){
+                idContacto = rs.getString("id_contacto");
+                telefonos = crearTelefonos(idContacto);
+                contacto = new Contacto(idContacto,rs.getString("nombre"), rs.getString("apellidos"), rs.getString("puesto"), rs.getString("correo"), telefonos);
+                contactos.add(contacto);
+            }
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return contactos;
+    }
+
+    public ArrayList<String> crearTelefonos(String idContacto){
+        ArrayList<String> telefonos = new ArrayList<>();
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = BD.ejecutarSQL("SELECT * FROM telefonos_contacto WHERE id_contacto='"+idContacto+"'", true);
+            while(rs.next()){
+                telefonos.add(rs.getString("telefono"));
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return telefonos;
+    }
+
+    public ArrayList<String > obtenerTelefonosCliente(int idCliente){
+        ArrayList<String> telefonos = new ArrayList<>();
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = BD.ejecutarSQL("SELECT * FROM telefonos_cliente WHERE id_cliente='"+idCliente+"'", true);
+            while(rs.next()){
+                telefonos.add(rs.getString("telefono"));
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return telefonos;
+    }
+
     public ArrayList<Cliente> listarClientes(){
-        ArrayList<Cliente> clientes = new ArrayList<>();
         Cliente cliente = new Cliente();
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        Contacto contactoLider = new Contacto();
+        Contacto contactoTecnico = new Contacto();
+        ArrayList<String> telefonos;
+        ArrayList<Object> clienteCompleto = new ArrayList<>();
+        ArrayList<Contacto> contactos = new ArrayList<>();
         try {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT * FROM cliente", true);
             while(rs.next()){
-                cliente = new Cliente(rs.getString("nombre"), rs.getString("razon_social"), rs.getString("cedula_juridica"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"));
+                telefonos = obtenerTelefonosCliente(rs.getInt("id_cliente"));
+                contactos = obtenerContactosCliente(rs.getInt("id_cliente"));
+                contactoLider = contactos.get(0);
+                contactoTecnico = contactos.get(1);
+                cliente = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"), rs.getString("razon_social"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"), telefonos,contactoLider, contactoTecnico);
                 clientes.add(cliente);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+
         return clientes;
     }
 
@@ -207,6 +280,21 @@ public class MultiCliente {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
             rs = BD.ejecutarSQL("SELECT nombre FROM cliente WHERE cedula_juridica = '"+cedJuridica+"'", true);
+            if(!rs.next()){
+                return true;
+            }
+            return false;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean validarContacto(String idContacto){
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = null;
+            rs = BD.ejecutarSQL("SELECT nombre FROM contacto WHERE id_contacto = '"+idContacto+"'", true);
             if(!rs.next()){
                 return true;
             }

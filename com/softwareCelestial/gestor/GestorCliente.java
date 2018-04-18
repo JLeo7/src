@@ -27,11 +27,11 @@ public class GestorCliente {
         multiCliente.modificarCliente(pCedJuridica, pNombre, pRazonSocial, pLatitud, pLatitud, pDireccionExacta, pLogo);
     }
 
-    public String imprimirCliente(String idCliente){
-
-        String cliente = multiCliente.listarCliente(idCliente).toString();
-        return cliente;
-    }
+//    public String imprimirCliente(String cedJuridica){
+//        int idCliente = multiCliente.obtenerIdCliente(cedJuridica);
+//        String cliente = multiCliente.listarCliente(idCliente).toString();
+//        return cliente;
+//    }
 
     public void actualizarTelefonos(String idCliente, ArrayList<String> telefonos){
         multiCliente.actualizarTelefonos(idCliente, telefonos);
@@ -53,4 +53,24 @@ public class GestorCliente {
         return multiCliente.validarCliente(cedulaJuridica);
 
     }
+
+    public boolean validarContacto(String idContacto){
+        return multiCliente.validarContacto(idContacto);
+    }
+
+    public String imprimirCliente(String cedJuridica){
+        int idCliente = multiCliente.obtenerIdCliente(cedJuridica);
+//        ArrayList<String> clienteImprimir = new ArrayList<>();
+//        Cliente cliente = multiCliente.listarCliente(idCliente);
+//        String cliente = cliente.toString();
+//        String contacto;
+
+        return multiCliente.listarCliente(idCliente).toString();
+    }
+
+//    public String toStringContacto(Contacto contacto){
+//        String contactoString = "Identificación: " + contacto.getId() + "," + ;
+//        return contactoString;
+//    }
+
 }

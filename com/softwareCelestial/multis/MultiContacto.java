@@ -33,8 +33,4 @@ public class MultiContacto {
 
     }
 
-    public void modificarContacto(Contacto pContacto){
-
-    }
-
 }
