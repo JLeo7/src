@@ -290,18 +290,36 @@ public class MultiCliente {
         }
     }
 
-    public boolean validarContacto(String idContacto){
-        try{
+    public boolean validarContacto(String idContacto) {
+        try {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT nombre FROM contacto WHERE id_contacto = '"+idContacto+"'", true);
-            if(!rs.next()){
+            rs = BD.ejecutarSQL("SELECT nombre FROM contacto WHERE id_contacto = '" + idContacto + "'", true);
+            if (!rs.next()) {
                 return true;
             }
             return false;
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
+        }
+    }
+
+    public Cliente obtenerClientePorIdInstalacion(int idInstalacion){
+        try {
+            AccesoBD aBD;
+            ResultSet rs;
+            Cliente clienteEncontrado;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_cliente_por_id_instalacion("+idInstalacion+")",true);
+            if (rs.next()){
+                return clienteEncontrado = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"),rs.getString("razon_social"),rs.getString("latidud"),rs.getString("longitud"),rs.getString("direccion"),rs.getString("logo"));
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 }

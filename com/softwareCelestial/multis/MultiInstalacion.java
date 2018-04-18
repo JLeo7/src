@@ -2,10 +2,8 @@ package com.softwareCelestial.multis;
 import CapaAccesoBD.AccesoBD;
 import CapaAccesoBD.Conector;
 import java.sql.ResultSet;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-
+import com.softwareCelestial.convertidor.Convertidor;
 import com.softwareCelestial.cl.*;
 import com.softwareCelestial.multis.MultiProducto;
 import com.softwareCelestial.multis.MultiCliente;
@@ -15,67 +13,66 @@ public class MultiInstalacion {
 
     public void registrarInstalacion(Instalacion nuevaInstalacion){
         try{
-            AccesoBD accesoBD;
-            String fecha;
-            String hora;
+            AccesoBD aBD;
             MultiCliente mCliente;
-            fecha = nuevaInstalacion.getFecha().getYear()+"-"+nuevaInstalacion.getFecha().getMonthValue()+"-"+nuevaInstalacion.getFecha().getDayOfMonth();
-            hora = nuevaInstalacion.getHora().getHour()+":"+nuevaInstalacion.getHora().getMinute()+":"+nuevaInstalacion.getHora().getSecond();
-            accesoBD = Conector.getConector();
+            Convertidor convertidorActual;
+            convertidorActual = new Convertidor();
+            aBD = Conector.getConector();
             mCliente = new MultiCliente();
-//            accesoBD.ejecutarSQL("insert into instalacion (fecha,hora,estado,id_producto,id_cliente,id_version) values ('"+fecha+"'," +
-//                    "'"+hora+"','"+nuevaInstalacion.getEstado()+"',"+nuevaInstalacion.getProductoInstalado().getIdProducto()+"," +
-//                    ""+mCliente.obtenerIdPorCedJuridica()+","+nuevaInstalacion.getProductoInstalado().getVersionActual().getNumero()+")");
+            aBD.ejecutarSQL("insert into instalacion (fecha,hora,estado,id_producto,id_cliente,id_version) values ('"+convertidorActual.convertirFechaAString(nuevaInstalacion.getFecha())+"'," +
+                    "'"+convertidorActual.convertirHoraAString(nuevaInstalacion.getHora())+"','"+nuevaInstalacion.getEstado()+"',"+nuevaInstalacion.getProductoInstalado().getIdProducto()+"," +
+                    ""+mCliente.obtenerIdCliente(nuevaInstalacion.getSolicitante().getCedJuridica())+","+nuevaInstalacion.getProductoInstalado().getVersionActual().getNumero()+")");
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-//    public ArrayList<Instalacion> listarInstalaciones(){
-//        try{
-//            ArrayList<Instalacion> instalaciones;
-//            ArrayList<Tarea> tareas;
-//            Producto productoInstalado;
-//            Cliente solicitante;
-//            Version versionInstalada;
-//            ResultSet rs;
-//            AccesoBD accesoBD;
-//            MultiTarea mTarea;
-//            MultiCliente mCliente;
-//            MultiProducto mProducto;
-//            MultiVersion mVersion;
-//            Instalacion instalacionObtenida;
-//            instalaciones = new ArrayList<>();
-//            accesoBD = Conector.getConector();
-//            mTarea = new MultiTarea();
-//            mProducto = new MultiProducto();
-//            mCliente = new MultiCliente();
-//            mVersion = new MultiVersion();
-//            rs = accesoBD.ejecutarSQL("CALL pa_obtener_instalaciones()",true);
-//
-//            while (rs.next()) {
-//                tareas = mTarea.obtenerTareasPorIdInstalacion(rs.getInt("id_instalacion"));
-//                productoInstalado = mProducto.obtenerProductoPorIdInstalacion(rs.getInt("id_instalacion"));
-//                solicitante = mCliente.obtenerClientePorIdInstalacion(rs.getInt("id_instalacion"));
-//                versionInstalada = mVersion.obtenerVersionPorIdInstalacion(rs.getInt("id_instalacion"));
-//                instalacionObtenida = new Instalacion(rs.getInt("id_instalacion"),convertirStringAFecha(rs.getString("fecha")),convertirStringAHora(rs.getString("hora")),rs.getString("estado"),tareas,solicitante,productoInstalado,versionInstalada);
-//                instalaciones.add(instalacionObtenida);
-//            }
-//        } catch (Exception e){
-//            System.out.println(e.getMessage());
-//            return null;
-//        }
-//    }
+    public ArrayList<Instalacion> listarInstalaciones(){
+        try{
+            ArrayList<Instalacion> instalaciones;
+            ArrayList<Tarea> tareas;
+            Producto productoInstalado;
+            Cliente solicitante;
+            Version versionInstalada;
+            ResultSet rs;
+            AccesoBD aBD;
+            MultiTarea mTarea;
+            MultiCliente mCliente;
+            MultiProducto mProducto;
+            MultiVersion mVersion;
+            Instalacion instalacionObtenida;
+            Convertidor convActual;
+            convActual = new Convertidor();
+            instalaciones = new ArrayList<>();
+            aBD = Conector.getConector();
+            mTarea = new MultiTarea();
+            mProducto = new MultiProducto();
+            mCliente = new MultiCliente();
+            mVersion = new MultiVersion();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_instalaciones()",true);
 
-    public LocalDate convertirStringAFecha(String stringFecha){
-        String partes[];
-        partes = stringFecha.split("-");
-        return LocalDate.of(Integer.parseInt(partes[1]),Integer.parseInt(partes[2]),Integer.parseInt(partes[3]));
+            while (rs.next()) {
+                tareas = mTarea.obtenerTareasPorIdInstalacion(rs.getInt("id_instalacion"));
+                productoInstalado = mProducto.obtenerProductoPorIdInstalacion(rs.getInt("id_instalacion"));
+                solicitante = mCliente.obtenerClientePorIdInstalacion(rs.getInt("id_instalacion"));
+                versionInstalada = mVersion.obtenerVersionPorIdInstalacion(rs.getInt("id_instalacion"));
+                instalacionObtenida = new Instalacion(rs.getInt("id_instalacion"),convActual.convertirStringAFecha(rs.getString("fecha")),convActual.convertirStringAHora(rs.getString("hora")),rs.getString("estado"),tareas,solicitante,productoInstalado,versionInstalada);
+                instalaciones.add(instalacionObtenida);
+            }
+            return instalaciones;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
-    public LocalTime convertirStringAHora (String stringHora) {
-        String partes[];
-        partes = stringHora.split(":");
-        return LocalTime.of(Integer.parseInt(partes[1]),Integer.parseInt(partes[2]),Integer.parseInt(partes[3]));
+    public void modificarEstadoInstalacion (int idInstalacion,String nuevoEstado) {
+        try {
+            AccesoBD aBD;
+            aBD = Conector.getConector();
+            aBD.ejecutarSQL("CALL pa_modificar_estado_instalacion("+idInstalacion+",'"+nuevoEstado+"')");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

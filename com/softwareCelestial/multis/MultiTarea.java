@@ -8,7 +8,23 @@ import java.util.ArrayList;
 public class MultiTarea {
 
     public void registrarTarea(Tarea nuevaTarea){
+        try {
+            AccesoBD aBD;
+            aBD = Conector.getConector();
+            aBD.ejecutarSQL("CALL pa_registrar_tarea('"+nuevaTarea.getCodigo()+"','"+nuevaTarea.getDescripcion()+"','"+nuevaTarea.getEstado()+"','"+nuevaTarea.getTipo()+"','"+nuevaTarea.getResponsable()+"')");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    public void asignarTareaAUnaInstalacion(int idInstalacion, String codigoTarea) {
+        try {
+            AccesoBD aBD;
+            aBD = Conector.getConector();
+            aBD.ejecutarSQL("CALL pa_asignar_tarea_a_instalacion("+idInstalacion+",'"+obtenerIdTareaPorCodigo(codigoTarea)+"')");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public ArrayList<Tarea> obtenerTareasPorIdInstalacion(int idInstalacion){
@@ -29,6 +45,52 @@ public class MultiTarea {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    public int obtenerIdTareaPorCodigo(String codigo){
+        try {
+            AccesoBD aBD;
+            ResultSet rs;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_id_tarea_por_codigo('"+codigo+"')",true);
+
+            if (rs.next()) {
+                return rs.getInt("id_tarea");
+            } else {
+                return -1;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }
+
+    public void modificarEstadoTarea(String estadoModificado){
+        try {
+            AccesoBD aBD;
+            aBD = Conector.getConector();
+            aBD.ejecutarSQL("CALL pa_modificar_estado_tarea('"+estadoModificado+"')");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean validarTareasPendientes (int idInstalacion) {
+        try {
+            AccesoBD aBD;
+            ResultSet rs;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_tareas_pendientes("+idInstalacion+")",true);
+            if(rs.next()){
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return true;
         }
     }
 }
