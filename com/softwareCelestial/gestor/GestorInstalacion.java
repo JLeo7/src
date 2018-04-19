@@ -27,6 +27,7 @@ public class GestorInstalacion {
         horaCreacion = LocalTime.now();
 
         nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica)),mProducto.obtenerProductoPorId(idProducto),mProducto.obtenerProductoPorId(idProducto).getVersionActual());
+        System.out.println(nuevaInstalacion.toString());
         mInstalacion.registrarInstalacion(nuevaInstalacion);
     }
 

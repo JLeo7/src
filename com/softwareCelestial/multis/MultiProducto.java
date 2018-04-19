@@ -161,20 +161,28 @@ public class MultiProducto {
     public Producto obtenerProductoPorId(int idProducto){
         try {
             AccesoBD aBD;
-            Producto productoEncontrado;
+            Producto productoEncontrado = null;
             ResultSet rs;
             MultiVersion mVersion;
             mVersion = new MultiVersion();
             aBD = Conector.getConector();
             rs = aBD.ejecutarSQL("CALL pa_obtener_producto_por_id("+idProducto+")",true);
-
-            if (rs.next()) {
-                return productoEncontrado = new Producto(rs.getString("nombre"),rs.getString("logo"),rs.getString("descripcion"),rs.getString("id_producto"),mVersion.obtenerVersionPorId(rs.getInt(rs.getInt("id_version"))));
-            } else {
-                return null;
+            String nombre = "";
+            String logo = "";
+            String descripcion = "";
+            int idVersion = 0;
+            Version version;
+            while (rs.next()) {
+                nombre = rs.getString("nombre");
+                logo = rs.getString("logo");
+                descripcion = rs.getString("descripcion");
+                idVersion = rs.getInt("id_version");
             }
+            version = mVersion.obtenerVersionPorId(idVersion);
+            productoEncontrado = new Producto(nombre,logo,descripcion,idProducto+"",version);
+            return productoEncontrado;
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return null;
         }
     }

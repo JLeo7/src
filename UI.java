@@ -303,7 +303,7 @@ public class UI {
         out.println("Ingrese la Razon social");
         razonSocial = in.readLine();
         do{
-            out.println("Ingrese la CedJuridica");
+            out.println("Ingrese la Cedula juridica");
             cedJuridica = in.readLine();
             continuar = gestorCliente.validarCliente(cedJuridica);
             if(!continuar){
@@ -328,7 +328,7 @@ public class UI {
         cantTelefonos = Integer.parseInt(in.readLine());
 
         for (int i = 0; i<cantTelefonos;i++){
-            out.println("Ingrese el telefono "+i);
+            out.println("Ingrese el telefono "+(i+1));
             telefonosCliente.add(in.readLine());
         }
 
@@ -361,7 +361,7 @@ public class UI {
         cantTelefonos = Integer.parseInt(in.readLine());
 
         for (int i = 0; i<cantTelefonos;i++){
-            out.println("Ingrese el telefono "+i);
+            out.println("Ingrese el telefono "+(i+1));
             telefonosContacto1.add(in.readLine());
         }
 
@@ -393,7 +393,7 @@ public class UI {
         cantTelefonos = Integer.parseInt(in.readLine());
 
         for (int i = 0; i<cantTelefonos;i++){
-            out.println("Ingrese el telefono "+i);
+            out.println("Ingrese el telefono "+(i+1));
             telefonosContacto2.add(in.readLine());
         }
 
