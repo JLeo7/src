@@ -67,16 +67,12 @@ public class MultiVersion {
             aBD = Conector.getConector();
             rs = aBD.ejecutarSQL("CALL pa_obtener_version_por_id("+idVersion+")",true);
 
-//            if (validarVersionActualizada(idVersion)){
-//                // esta vara tiene que recibir un true si la version esta actualizada con caracteristicas y crear la version actualizada, si no tiene caracteristicas hay que crear la version simple.
-//            }
-
-            if (rs.next()) {
+            while (rs.next()) {
                 return versionEncontrada = new Version(rs.getString("numero"),convActual.convertirStringAFecha(rs.getString("fecha_creacion")));
-            } else {
-                return null;
             }
+            return null;
         } catch (Exception e){
+            System.out.println("obtenerVersionPorId");
             System.out.println(e.getMessage());
             return null;
         }
