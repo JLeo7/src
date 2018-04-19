@@ -313,6 +313,7 @@ public class MultiCliente {
             String direccion= "";
             String logo= "";
             while(rs.next()){
+                rs = BD.ejecutarSQL(query, true);
                 idCliente = rs.getInt("id_cliente");
                 cedulaJuridica = rs.getString("cedula_juridica");
                 razonSocial = rs.getString("razon_social");
