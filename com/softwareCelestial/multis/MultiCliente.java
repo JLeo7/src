@@ -304,7 +304,7 @@ public class MultiCliente {
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
             String query = "SELECT * FROM cliente";
-            rs = BD.ejecutarSQL(query, true);
+            rs = BD.ejecutarSQL("SELECT * FROM cliente", true);
             String nombre = "";
             String cedulaJuridica = "";
             String razonSocial= "";
@@ -313,7 +313,7 @@ public class MultiCliente {
             String direccion= "";
             String logo= "";
             while(rs.next()){
-                rs = BD.ejecutarSQL(query, true);
+                rs = BD.ejecutarSQL("SELECT * FROM cliente", true);
                 idCliente = rs.getInt("id_cliente");
                 cedulaJuridica = rs.getString("cedula_juridica");
                 razonSocial = rs.getString("razon_social");
