@@ -469,4 +469,17 @@ public class MultiCliente {
             return null;
         }
     }
+
+    public boolean validarClienteModificacion(int idCliente){
+        try{
+            AccesoBD BD = Conector.getConector();
+            ResultSet rs = BD.ejecutarSQL("SELECT cedula_juridica FROM cliente WHERE id_cliente='"+idCliente+"'", true);
+            if(rs.next()){
+                return true;
+            }
+        }catch(Exception e){
+            return false;
+        }
+        return false;
+    }
 }

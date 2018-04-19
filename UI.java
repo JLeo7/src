@@ -403,9 +403,17 @@ public class UI {
 
     static void modificarCliente() throws  java.io.IOException{
         String idCliente = "";
-        out.println("Ingrese la cedula juridica del cliente a modificar");
-        idCliente = in.readLine();
-        out.println(gestorCliente.imprimirCliente(idCliente));
+        boolean validacion = false;
+        do{
+            out.println("Ingrese la cedula juridica del cliente a modificar");
+            idCliente = in.readLine();
+            if(gestorCliente.modificarValidacion(idCliente)){
+                validacion = true;
+                out.println(gestorCliente.imprimirCliente(idCliente));
+            } else {
+                out.println("No se encuentra ningun cliente registrado con esa cedula juridica, intente de nuevo");
+            }
+        }while(!validacion);
         out.println();
         String nombre;
         String razonSocial;

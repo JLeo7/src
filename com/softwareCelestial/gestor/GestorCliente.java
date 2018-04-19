@@ -127,4 +127,9 @@ public class GestorCliente {
 //        return contactoString;
 //    }
 
+    public boolean modificarValidacion(String cedJuridica){
+        int idCliente = multiCliente.obtenerIdCliente(cedJuridica);
+        return multiCliente.validarClienteModificacion(idCliente);
+    }
+
 }
