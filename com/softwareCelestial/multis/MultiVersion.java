@@ -51,7 +51,6 @@ public class MultiVersion {
                 return null;
             }
         } catch (Exception e){
-            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -72,8 +71,6 @@ public class MultiVersion {
             }
             return null;
         } catch (Exception e){
-            System.out.println("obtenerVersionPorId");
-            System.out.println(e.getMessage());
             return null;
         }
     }

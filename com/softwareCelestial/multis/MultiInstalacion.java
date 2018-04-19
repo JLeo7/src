@@ -28,7 +28,6 @@ public class MultiInstalacion {
                     "'"+convertidorActual.convertirHoraAString(nuevaInstalacion.getHora())+"','"+nuevaInstalacion.getEstado()+"',"+nuevaInstalacion.getProductoInstalado().getIdProducto()+"," +
                     ""+mCliente.obtenerIdCliente(nuevaInstalacion.getSolicitante().getCedJuridica())+","+nuevaInstalacion.getProductoInstalado().getVersionActual().getNumero()+")");
         } catch (Exception e){
-            System.out.println(e.getMessage());
         }
     }
 
@@ -63,7 +62,7 @@ public class MultiInstalacion {
             while (rs.next()) {
                 tareas = mTarea.obtenerTareasPorIdInstalacion(rs.getInt("id_instalacion"));
                 productoInstalado = mProducto.obtenerProductoPorIdInstalacion(rs.getInt("id_instalacion"));
-//                solicitante = mCliente.obtenerClientePorIdInstalacion(rs.getInt("id_instalacion");
+                solicitante = mCliente.obtenerClientePorIdInstalacion(rs.getInt("id_instalacion"));
                 instalacionObtenida = new Instalacion(convActual.convertirStringAFecha(rs.getString("fecha")),convActual.convertirStringAHora(rs.getString("hora")),rs.getString("estado"),tareas,mCliente.obtenerClientePorIdInstalacion(rs.getInt("id_instalacion")),productoInstalado,mVersion.obtenerVersionPorId(rs.getInt("id_version")));
                 instalaciones.add(instalacionObtenida);
             }

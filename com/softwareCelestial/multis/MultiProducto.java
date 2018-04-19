@@ -180,11 +180,9 @@ public class MultiProducto {
             }
             version = mVersion.obtenerVersionPorId(idVersion);
             productoEncontrado = new Producto(nombre,logo,descripcion,idProducto+"",version);
-            System.out.println(productoEncontrado);
             return productoEncontrado;
 
         } catch (Exception e) {
-            System.out.println("obtenerProductoPorId");
             return null;
         }
     }
