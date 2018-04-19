@@ -136,22 +136,19 @@ public class MultiCliente {
         ArrayList<String> telefonos;
         ArrayList<Contacto> contactos = new ArrayList<>();
         try {
+
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
             String query = "SELECT * FROM cliente WHERE id_cliente="+idCliente+"";
             rs = BD.ejecutarSQL(query, true);
-            String nombre;
-            String cedulaJuridica;
-            String razonSocial;
-            String latitud;
-            String longitud;
-            String direccion;
-            String logo;
+            String nombre = "";
+            String cedulaJuridica = "";
+            String razonSocial= "";
+            String latitud= "";
+            String longitud= "";
+            String direccion= "";
+            String logo= "";
             while(rs.next()){
-                telefonos = obtenerTelefonosCliente(idCliente);
-                contactos = obtenerContactosCliente(idCliente);
-                contactoLider = contactos.get(0);
-                contactoTecnico = contactos.get(1);
                 cedulaJuridica = rs.getString("cedula_juridica");
                 razonSocial = rs.getString("razon_social");
                 latitud = rs.getString("latitud");
@@ -159,13 +156,19 @@ public class MultiCliente {
                 direccion = rs.getString("direccion");
                 logo = rs.getString("logo");
                 nombre = rs.getString("nombre");
-                cliente = new Cliente(nombre, razonSocial, cedulaJuridica, latitud, longitud,direccion, logo, telefonos, contactoLider, contactoTecnico);
             }
+                telefonos = obtenerTelefonosCliente(idCliente);
+                contactos = obtenerContactosCliente(idCliente);
+                contactoLider = contactos.get(0);
+                contactoTecnico = contactos.get(1);
+
+                cliente = new Cliente(nombre, cedulaJuridica, razonSocial, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
+
         }
-
-
         return cliente;
     }
 
@@ -294,25 +297,43 @@ public class MultiCliente {
         Contacto contactoLider = new Contacto();
         Contacto contactoTecnico = new Contacto();
         ArrayList<String> telefonos;
-        ArrayList<Object> clienteCompleto = new ArrayList<>();
         ArrayList<Contacto> contactos = new ArrayList<>();
+        int idCliente = 0;
         try {
+
             AccesoBD BD = Conector.getConector();
             ResultSet rs = null;
-            rs = BD.ejecutarSQL("SELECT * FROM cliente", true);
+            String query = "SELECT * FROM cliente";
+            rs = BD.ejecutarSQL(query, true);
+            String nombre = "";
+            String cedulaJuridica = "";
+            String razonSocial= "";
+            String latitud= "";
+            String longitud= "";
+            String direccion= "";
+            String logo= "";
             while(rs.next()){
-                telefonos = obtenerTelefonosCliente(rs.getInt("id_cliente"));
-                contactos = obtenerContactosCliente(rs.getInt("id_cliente"));
-                contactoLider = contactos.get(0);
-                contactoTecnico = contactos.get(1);
-                cliente = new Cliente(rs.getString("nombre"),rs.getString("cedula_juridica"), rs.getString("razon_social"), rs.getString("latitud"), rs.getString("longitud"), rs.getString("direccion"), rs.getString("logo"), telefonos,contactoLider, contactoTecnico);
-                clientes.add(cliente);
+                idCliente = rs.getInt("id_cliente");
+                cedulaJuridica = rs.getString("cedula_juridica");
+                razonSocial = rs.getString("razon_social");
+                latitud = rs.getString("latitud");
+                longitud = rs.getString("longitud");
+                direccion = rs.getString("direccion");
+                logo = rs.getString("logo");
+                nombre = rs.getString("nombre");
             }
+            telefonos = obtenerTelefonosCliente(idCliente);
+            contactos = obtenerContactosCliente(idCliente);
+            contactoLider = contactos.get(0);
+            contactoTecnico = contactos.get(1);
+
+            cliente = new Cliente(nombre, cedulaJuridica, razonSocial, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
+
         }
-
-
         return clientes;
     }
 

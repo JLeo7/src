@@ -1,5 +1,6 @@
 package com.softwareCelestial.cl;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 /**
  * @author Esteban Sancho
@@ -16,6 +17,7 @@ public class Cliente {
     private ArrayList<String> telefonos;
     private Contacto contactoLider;
     private Contacto contactoTecnico;
+    Contacto contacto = new Contacto();
 
     public Cliente() {
     }
@@ -33,15 +35,15 @@ public class Cliente {
         this.contactoTecnico = contactoTecnico;
     }
 
-    public Cliente(String nombre, String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, String logo){
-        this.nombre = nombre;
-        this.razonSocial = razonSocial;
-        this.cedJuridica = cedJuridica;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.direccionExacta = direccionExacta;
-        this.logo = logo;
-    }
+//    public Cliente(String nombre, String razonSocial, String cedJuridica, String latitud, String longitud, String direccionExacta, String logo){
+//        this.nombre = nombre;
+//        this.razonSocial = razonSocial;
+//        this.cedJuridica = cedJuridica;
+//        this.latitud = latitud;
+//        this.longitud = longitud;
+//        this.direccionExacta = direccionExacta;
+//        this.logo = logo;
+//    }
 
     public String getNombre() {
         return nombre;
@@ -125,20 +127,21 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente: " +
-                " - nombre = " + nombre + '\n' +
+        return "Cliente: " + '\n' +
+                " - nombre='" + nombre + '\n' +
                 " - razonSocial='" + razonSocial + '\n' +
                 " - cedJuridica='" + cedJuridica + '\n' +
                 " - latitud='" + latitud + '\n' +
                 " - longitud='" + longitud + '\n' +
                 " - direccionExacta='" + direccionExacta + '\n' +
                 " - logo='" + logo + '\n' +
-                " - telefonos=" + telefonos.toString() + '\n'+
-                " - contacto1=" + contactoLider.toString()+ '\n' +
-                " - contacto2= "+ contactoTecnico.toString();
+                " - telefonos=" + telefonos + '\n'+ '\n' +
+                " - contactoLider=" + contactoLider + '\n' + '\n'+
+                " - contactoTecnico=" + contactoTecnico + '\n';
     }
 
-//    public String toStringTelefono() {
-//        return
-//    }
+    public String toStringTelefono(ArrayList<String> telefonos) {
+        return "Telefonos:" + '\n'+
+                " - Telefono 1: " +telefonos.get(0)+'\n';
+    }
 }
