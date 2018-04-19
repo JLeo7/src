@@ -321,13 +321,15 @@ public class MultiCliente {
                 direccion = rs.getString("direccion");
                 logo = rs.getString("logo");
                 nombre = rs.getString("nombre");
-            }
-            telefonos = obtenerTelefonosCliente(idCliente);
-            contactos = obtenerContactosCliente(idCliente);
-            contactoLider = contactos.get(0);
-            contactoTecnico = contactos.get(1);
+                telefonos = obtenerTelefonosCliente(idCliente);
+                contactos = obtenerContactosCliente(idCliente);
+                contactoLider = contactos.get(0);
+                contactoTecnico = contactos.get(1);
 
-            cliente = new Cliente(nombre, cedulaJuridica, razonSocial, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
+                cliente = new Cliente(nombre, cedulaJuridica, razonSocial, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
+                clientes.add(cliente);
+            }
+
 
 
         } catch (Exception e) {
