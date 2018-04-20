@@ -20,8 +20,8 @@ public class GestorTarea {
     public void registrarTarea(String codigo,String descripcion,String tipo,String responsable,int idInstalacion){
         MultiTarea mTarea;
         Tarea nuevaTarea;
-        nuevaTarea = new Tarea();
         mTarea = new MultiTarea();
+        nuevaTarea = new Tarea(codigo,descripcion,"pendiente",tipo,responsable);
         mTarea.registrarTarea(nuevaTarea,idInstalacion);
     }
 

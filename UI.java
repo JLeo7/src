@@ -203,12 +203,12 @@ public class UI {
 
     static void registrarInstalacion()throws java.io.IOException{
         String cedJuridica;
-        int idProducto;
+        String codProducto;
         out.print("Digite la cedula juridica del cliente que solicita la instalacion: ");
         cedJuridica = in.readLine();
-        out.print("Digite el id del producto que desea instalar: ");
-        idProducto = Integer.parseInt(in.readLine());
-        gInstalacion.registrarInstalacion(cedJuridica,idProducto);
+        out.print("Digite el codigo del producto que desea instalar: ");
+        codProducto = in.readLine();
+        gInstalacion.registrarInstalacion(cedJuridica,codProducto);
     }
 
     static void listarInstalaciones(){
@@ -453,9 +453,10 @@ public class UI {
     }
 
     static void listarClientes() throws java.io.IOException{
-        for(String var:gestorCliente.listarClientes()){
-            out.println(var);
-        }
+        String cedJuridica;
+        out.println("Ingrese la cedula juridica del cliente");
+        cedJuridica = in.readLine();
+        out.println(gestorCliente.imprimirCliente(cedJuridica));
     }
 
     static void registrarProducto()throws java.io.IOException{

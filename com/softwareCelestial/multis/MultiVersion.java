@@ -20,8 +20,7 @@ public class MultiVersion {
             AccesoBD BD = Conector.getConector();
             BD.ejecutarSQL("INSERT INTO tversion(numero, fecha_creacion) VALUES ('"+numeroVersion+"', '"+fecha+"')");
         } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
+                    }
     }
 
     public void modificarVersion(String numeroVersion, String idProducto, LocalDate fechaCreacion){
@@ -72,6 +71,23 @@ public class MultiVersion {
             return null;
         } catch (Exception e){
             return null;
+        }
+    }
+
+    public int obtenerIdVersionPorNumero(String numeroVersion){
+        try{
+            AccesoBD aBD;
+            int idVersion = -1;
+            ResultSet rs;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("select tv.id_version from tversion as tv\n" +
+                    "where tv.numero = '"+numeroVersion+"'",true);
+            if (rs.next()){
+                idVersion = rs.getInt("id_version");
+            }
+            return idVersion;
+        } catch (Exception e) {
+            return -1;
         }
     }
 }
