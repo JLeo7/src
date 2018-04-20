@@ -161,7 +161,7 @@ public class MultiCliente {
                 contactoLider = contactos.get(0);
                 contactoTecnico = contactos.get(1);
 
-                cliente = new Cliente(nombre, cedulaJuridica, razonSocial, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
+                cliente = new Cliente(nombre, razonSocial, cedulaJuridica, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
 
 
         } catch (Exception e) {
@@ -465,23 +465,6 @@ public class MultiCliente {
         } catch (Exception e) {
 
             return null;
-        }
-    }
-
-    public int obtenerIdClientePorCedula(String cedulaJuridica){
-        try{
-            AccesoBD aBD;
-            int idCliente = -1;
-            ResultSet rs;
-            aBD = Conector.getConector();
-            rs = aBD.ejecutarSQL("select tc.id_cliente from cliente as tc\n" +
-                    "where tpc.cedula_juridica = '"+cedulaJuridica+"'",true);
-            if (rs.next()){
-                idCliente = rs.getInt("id_cliente");
-            }
-            return idCliente;
-        } catch (Exception e) {
-            return -1;
         }
     }
 }

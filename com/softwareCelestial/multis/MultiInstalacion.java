@@ -38,8 +38,10 @@ public class MultiInstalacion {
             hora = convertidorActual.convertirHoraAString(nuevaInstalacion.getHora());
             estado = nuevaInstalacion.getEstado();
             idProducto = mProducto.obtenerIdProductoPorCodigo(nuevaInstalacion.getProductoInstalado().getIdProducto());
-            idCliente = mCliente.obtenerIdClientePorCedula(nuevaInstalacion.getSolicitante().getCedJuridica());
+            System.out.println(nuevaInstalacion.getSolicitante().getCedJuridica());
+            idCliente = mCliente.obtenerIdCliente(nuevaInstalacion.getSolicitante().getCedJuridica());
             idVersion = mVersion.obtenerIdVersionPorNumero(nuevaInstalacion.getProductoInstalado().getVersionActual().getNumero());
+            System.out.println("c "+idCliente+" p "+idProducto+" v "+idVersion);
             aBD = Conector.getConector();
             aBD.ejecutarSQL("insert into instalacion (fecha,hora,estado,id_producto,id_cliente,id_version) values ('"+fecha+"','"+hora+"','"+estado+"',"+idProducto+","+idCliente+","+idVersion+")");
         } catch (Exception e){

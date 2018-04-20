@@ -1,5 +1,7 @@
 package com.softwareCelestial.gestor;
+import com.softwareCelestial.cl.Cliente;
 import com.softwareCelestial.cl.Instalacion;
+import com.softwareCelestial.cl.Producto;
 import com.softwareCelestial.cl.Tarea;
 import com.softwareCelestial.multis.MultiCliente;
 import com.softwareCelestial.multis.MultiInstalacion;
@@ -25,8 +27,11 @@ public class GestorInstalacion {
         Instalacion nuevaInstalacion;
         fechaCreacion = LocalDate.now();
         horaCreacion = LocalTime.now();
-
-        nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica)),mProducto.listarProducto(codProducto),mProducto.listarProducto(codProducto).getVersionActual());
+        Cliente solicitante;
+        Producto productoInstalado;
+        solicitante = mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica));
+        productoInstalado = mProducto.listarProducto(codProducto);
+        nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,solicitante,productoInstalado,productoInstalado.getVersionActual());
         mInstalacion.registrarInstalacion(nuevaInstalacion);
     }
 
