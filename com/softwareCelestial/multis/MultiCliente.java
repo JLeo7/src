@@ -54,7 +54,7 @@ public class MultiCliente {
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
         }
 
     }
@@ -94,7 +94,7 @@ public class MultiCliente {
             AccesoBD BD = Conector.getConector();
             BD.ejecutarSQL("INSERT INTO contactos_cliente(id_cliente, id_contacto) VALUES ('"+idCliente+"', '"+idContacto+"')");
         }catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
     }
 
@@ -115,8 +115,7 @@ public class MultiCliente {
             BD.ejecutarSQL("UPDATE cliente SET razon_social='" + pRazonSocial + "', latitud='" + pLatitud + "', longitud = '" + pLongitud + "', direccion='" + pDireccionExacta + "', logo='" + pLogo + "', nombre='"+pNombre+"' WHERE cedula_juridica ='" + pCedJuridica + "'");
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Modificar cliente");
+
         }
     }
 
@@ -162,11 +161,11 @@ public class MultiCliente {
                 contactoLider = contactos.get(0);
                 contactoTecnico = contactos.get(1);
 
-                cliente = new Cliente(nombre, cedulaJuridica, razonSocial, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
+                cliente = new Cliente(nombre, razonSocial, cedulaJuridica, latitud, longitud, direccion, logo, telefonos,contactoLider, contactoTecnico);
 
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
 
         }
         return cliente;
@@ -207,7 +206,7 @@ public class MultiCliente {
             }
 
         }catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
         return contactos;
     }
@@ -238,7 +237,7 @@ public class MultiCliente {
             }
             return null;
         }catch(Exception e){
-            System.out.println(e.getMessage());
+
             return null;
         }
 
@@ -259,7 +258,7 @@ public class MultiCliente {
                 telefonos.add(rs.getString("telefono"));
             }
         }catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
         return telefonos;
     }
@@ -280,7 +279,7 @@ public class MultiCliente {
                 telefonos.add(rs.getString("telefono"));
             }
         }catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
         return telefonos;
     }
@@ -313,7 +312,6 @@ public class MultiCliente {
             String direccion= "";
             String logo= "";
             while(rs.next()){
-                rs = BD.ejecutarSQL("SELECT * FROM cliente", true);
                 idCliente = rs.getInt("id_cliente");
                 cedulaJuridica = rs.getString("cedula_juridica");
                 razonSocial = rs.getString("razon_social");
@@ -334,7 +332,7 @@ public class MultiCliente {
 
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
 
         }
         return clientes;
@@ -438,7 +436,7 @@ public class MultiCliente {
             }
             return false;
         } catch(Exception e){
-            System.out.println(e.getMessage());
+
             return false;
         }
     }
@@ -465,7 +463,7 @@ public class MultiCliente {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
             return null;
         }
     }

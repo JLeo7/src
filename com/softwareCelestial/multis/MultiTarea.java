@@ -101,7 +101,7 @@ public class MultiTarea {
         try {
             AccesoBD aBD;
             aBD = Conector.getConector();
-            aBD.ejecutarSQL("CALL pa_modificar_estado_tarea('"+estadoModificado+"')");
+            aBD.ejecutarSQL("CALL pa_modificar_estado_tarea('"+codigoTarea+"','"+estadoModificado+"')");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -128,6 +128,24 @@ public class MultiTarea {
         } catch (Exception e){
             System.out.println(e.getMessage());
             return true;
+        }
+    }
+
+    public boolean validarTareasExistentes (int idInstalacion) {
+        try {
+            AccesoBD aBD;
+            ResultSet rs;
+            boolean result;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("CALL pa_obtener_tareas_por_id_instalacion()",true);
+            if (rs.next()){
+                result = true;
+            } else {
+                result = false;
+            }
+            return result;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

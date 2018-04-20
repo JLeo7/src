@@ -1,5 +1,7 @@
 package com.softwareCelestial.gestor;
+import com.softwareCelestial.cl.Cliente;
 import com.softwareCelestial.cl.Instalacion;
+import com.softwareCelestial.cl.Producto;
 import com.softwareCelestial.cl.Tarea;
 import com.softwareCelestial.multis.MultiCliente;
 import com.softwareCelestial.multis.MultiInstalacion;
@@ -16,18 +18,20 @@ public class GestorInstalacion {
     /**
      * Metodo que recibe la infrormacion necesaria para crear una instalcion y la envia al multi para ingreso en la base de datos.
      * @param cedJuridica
-     * @param idProducto
+     * @param codProducto
      * @author Leonardo Mora
      */
-    public void registrarInstalacion(String cedJuridica,int idProducto){
+    public void registrarInstalacion(String cedJuridica,String codProducto){
         LocalDate fechaCreacion;
         LocalTime horaCreacion;
         Instalacion nuevaInstalacion;
         fechaCreacion = LocalDate.now();
         horaCreacion = LocalTime.now();
-
-        nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica)),mProducto.obtenerProductoPorId(idProducto),mProducto.obtenerProductoPorId(idProducto).getVersionActual());
-        System.out.println(nuevaInstalacion.toString());
+        Cliente solicitante;
+        Producto productoInstalado;
+        solicitante = mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica));
+        productoInstalado = mProducto.listarProducto(codProducto);
+        nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,solicitante,productoInstalado,productoInstalado.getVersionActual());
         mInstalacion.registrarInstalacion(nuevaInstalacion);
     }
 
