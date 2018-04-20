@@ -38,7 +38,7 @@ public class MultiProducto {
             }
 
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+
         }
     }
 
@@ -60,7 +60,7 @@ public class MultiProducto {
                 producto = new Producto(rs.getString("nombre"), rs.getString("logo"), rs.getString("descripcion") , codigoProducto, versionActual);
             }
         } catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
         return producto;
     }
@@ -78,7 +78,7 @@ public class MultiProducto {
             AccesoBD BD = Conector.getConector();
             BD.ejecutarSQL("UPDATE producto SET nombre='"+nombre+"', logo='"+logo+"', descripcion='"+descripcion+"' WHERE codigo ='"+codigoProducto+"'");
         } catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
     }
     /**
@@ -98,7 +98,7 @@ public class MultiProducto {
                 productos.add(cliente);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
         }
         return productos;
     }
@@ -113,7 +113,7 @@ public class MultiProducto {
             AccesoBD BD = Conector.getConector();
             BD.ejecutarSQL("DELETE FROM producto WHERE id_producto ='"+idProducto+"'");
         } catch(Exception e){
-            System.out.println(e.getMessage());
+
         }
     }
 
@@ -133,7 +133,7 @@ public class MultiProducto {
             }
             return false;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
             return false;
         }
     }
@@ -153,7 +153,7 @@ public class MultiProducto {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
             return null;
         }
     }
@@ -184,6 +184,23 @@ public class MultiProducto {
 
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public int obtenerIdProductoPorCodigo(String codigoProducto){
+        try{
+            AccesoBD aBD;
+            int idProducto = -1;
+            ResultSet rs;
+            aBD = Conector.getConector();
+            rs = aBD.ejecutarSQL("select tp.id_producto from producto as tp\n" +
+                    "where tp.codigo = '"+codigoProducto+"'",true);
+            if (rs.next()){
+                idProducto = rs.getInt("id_producto");
+            }
+            return idProducto;
+        } catch (Exception e) {
+            return -1;
         }
     }
 }

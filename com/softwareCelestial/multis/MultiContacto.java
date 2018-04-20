@@ -38,7 +38,7 @@ public class MultiContacto {
                 BD.ejecutarSQL("INSERT INTO telefonos_contacto(telefono, id_contacto) VALUES('"+var+"', '"+id+"')");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
         }
 
     }
@@ -59,7 +59,7 @@ public class MultiContacto {
             }
             return false;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
             return false;
         }
     }

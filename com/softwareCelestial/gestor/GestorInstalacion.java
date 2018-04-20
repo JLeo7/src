@@ -16,18 +16,17 @@ public class GestorInstalacion {
     /**
      * Metodo que recibe la infrormacion necesaria para crear una instalcion y la envia al multi para ingreso en la base de datos.
      * @param cedJuridica
-     * @param idProducto
+     * @param codProducto
      * @author Leonardo Mora
      */
-    public void registrarInstalacion(String cedJuridica,int idProducto){
+    public void registrarInstalacion(String cedJuridica,String codProducto){
         LocalDate fechaCreacion;
         LocalTime horaCreacion;
         Instalacion nuevaInstalacion;
         fechaCreacion = LocalDate.now();
         horaCreacion = LocalTime.now();
 
-        nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica)),mProducto.obtenerProductoPorId(idProducto),mProducto.obtenerProductoPorId(idProducto).getVersionActual());
-        System.out.println(nuevaInstalacion.toString());
+        nuevaInstalacion = new Instalacion(fechaCreacion,horaCreacion,"pendiente",null,mCliente.listarCliente(mCliente.obtenerIdCliente(cedJuridica)),mProducto.listarProducto(codProducto),mProducto.listarProducto(codProducto).getVersionActual());
         mInstalacion.registrarInstalacion(nuevaInstalacion);
     }
 

@@ -19,14 +19,29 @@ public class MultiInstalacion {
     public void registrarInstalacion(Instalacion nuevaInstalacion){
         try{
             AccesoBD aBD;
+            MultiProducto mProducto;
             MultiCliente mCliente;
+            MultiVersion mVersion;
+            ArrayList<Tarea> tareas;
             Convertidor convertidorActual;
-            convertidorActual = new Convertidor();
-            aBD = Conector.getConector();
+            String fecha;
+            String hora;
+            String estado;
+            int idProducto;
+            int idVersion;
+            int idCliente;
+            mProducto = new MultiProducto();
+            mVersion = new MultiVersion();
             mCliente = new MultiCliente();
-            aBD.ejecutarSQL("insert into instalacion (fecha,hora,estado,id_producto,id_cliente,id_version) values ('"+convertidorActual.convertirFechaAString(nuevaInstalacion.getFecha())+"'," +
-                    "'"+convertidorActual.convertirHoraAString(nuevaInstalacion.getHora())+"','"+nuevaInstalacion.getEstado()+"',"+nuevaInstalacion.getProductoInstalado().getIdProducto()+"," +
-                    ""+mCliente.obtenerIdCliente(nuevaInstalacion.getSolicitante().getCedJuridica())+","+nuevaInstalacion.getProductoInstalado().getVersionActual().getNumero()+")");
+            convertidorActual = new Convertidor();
+            fecha = convertidorActual.convertirFechaAString(nuevaInstalacion.getFecha());
+            hora = convertidorActual.convertirHoraAString(nuevaInstalacion.getHora());
+            estado = nuevaInstalacion.getEstado();
+            idProducto = mProducto.obtenerIdProductoPorCodigo(nuevaInstalacion.getProductoInstalado().getIdProducto());
+            idCliente = mCliente.obtenerIdClientePorCedula(nuevaInstalacion.getSolicitante().getCedJuridica());
+            idVersion = mVersion.obtenerIdVersionPorNumero(nuevaInstalacion.getProductoInstalado().getVersionActual().getNumero());
+            aBD = Conector.getConector();
+            aBD.ejecutarSQL("insert into instalacion (fecha,hora,estado,id_producto,id_cliente,id_version) values ('"+fecha+"','"+hora+"','"+estado+"',"+idProducto+","+idCliente+","+idVersion+")");
         } catch (Exception e){
         }
     }
@@ -68,7 +83,7 @@ public class MultiInstalacion {
             }
             return instalaciones;
         } catch (Exception e){
-            System.out.println(e.getMessage());
+
             return null;
         }
     }
