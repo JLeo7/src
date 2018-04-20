@@ -153,7 +153,6 @@ public class MultiProducto {
                 return null;
             }
         } catch (Exception e) {
-
             return null;
         }
     }
